@@ -8,7 +8,7 @@ import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
 
-class GraphicFromSheet {
+public class GraphicFromSheet {
 	// Singleton pattern to avoid multiple unneeded objects
 	private static GraphicFromSheet single_instance = null;
 
