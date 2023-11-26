@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.StackPane?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1366.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.GameController" >
+   <children>
+      <StackPane id="foundationPiles1" fx:id="foundationPiles1" layoutX="20.0" layoutY="10.0" prefHeight="180.0" prefWidth="120.0" style="-fx-background-color: black;" />
+      <StackPane id="foundationPiles2" fx:id="foundationPiles2" layoutX="150.0" layoutY="10.0" prefHeight="180.0" prefWidth="120.0" style="-fx-background-color: black;" />
+      <StackPane id="foundationPiles3" fx:id="foundationPiles3" layoutX="280.0" layoutY="10.0" prefHeight="180.0" prefWidth="120.0" style="-fx-background-color: black;" />
+      <StackPane id="foundationPiles4" fx:id="foundationPiles4" layoutX="410.0" layoutY="10.0" prefHeight="180.0" prefWidth="120.0" style="-fx-background-color: black;" />
+      <StackPane id="foundationPiles1" fx:id="tableau1" layoutX="20.0" layoutY="250.0" prefHeight="180.0" prefWidth="120.0" style="-fx-background-color: black;"/>
+      <StackPane id="foundationPiles1" fx:id="tableau2" layoutX="150.0" layoutY="250.0" prefHeight="180.0" prefWidth="120.0" style="-fx-background-color: black;" />
+      <StackPane id="foundationPiles1" fx:id="tableau3" layoutX="280.0" layoutY="250.0" prefHeight="180.0" prefWidth="120.0" style="-fx-background-color: black;" />
+      <StackPane id="foundationPiles1" fx:id="tableau4" layoutX="410.0" layoutY="250.0" prefHeight="180.0" prefWidth="120.0" style="-fx-background-color: black;" />
+      <StackPane id="foundationPiles1" fx:id="tableau5" layoutX="540.0" layoutY="250.0" prefHeight="180.0" prefWidth="120.0" style="-fx-background-color: black;" />
+      <StackPane id="foundationPiles1" fx:id="tableau6" layoutX="670.0" layoutY="250.0" prefHeight="180.0" prefWidth="120.0" style="-fx-background-color: black;" />
+      <StackPane id="foundationPiles1" fx:id="tableau7" layoutX="800.0" layoutY="250.0" prefHeight="180.0" prefWidth="120.0" style="-fx-background-color: black;" />
+      <StackPane id="foundationPiles1" fx:id="tableau8" layoutX="930.0" layoutY="250.0" prefHeight="180.0" prefWidth="120.0" style="-fx-background-color: black;" />
+      <StackPane id="foundationPiles1" fx:id="stock" layoutX="1017.0" layoutY="10.0" prefHeight="180.0" prefWidth="120.0" style="-fx-background-color: black;" />
+   </children>
+</AnchorPane>
