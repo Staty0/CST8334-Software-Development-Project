@@ -1,90 +1,97 @@
 package gui;
 
+import controller.Foundation;
+import controller.Pile;
+import controller.Tableau;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.DataFormat;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.StackPane;
 import model.Card;
 
 public class DragAndDrop {
+	private Pile currentPile;
+	private StackPane stackpane;
+
+	private static DragAndDrop single_instance = null;
+
+	private DragAndDrop() {
+	}
+
+	public static synchronized DragAndDrop getInstance() {
+		if (single_instance == null)
+			single_instance = new DragAndDrop();
+
+		return single_instance;
+	}
+
+
 	// create a draggable card view
-		// only the first card in the tableau pile is face up can be dragged
-		private ImageView createDraggableCardView(Card card, StackPane currentPile) {
-			ImageView cardView = graphicFromSheet.cardGet(card.getSuit(), card.getNumber());
+	public ImageView createDraggableCardView(Card card, Pile currentPile) {
+		ImageView cardView = card.getImageView();
+		cardView.setUserData(card);
+		
+		stackpane = currentPile.getStackPane();
+		this.currentPile = currentPile;
 
-			cardView.setOnDragDetected(event -> {
-				Dragboard db = cardView.startDragAndDrop(TransferMode.MOVE);
-				ClipboardContent content = new ClipboardContent();
-				content.putString(card.getId());
-				db.setContent(content);
+		cardView.setOnDragDetected(event -> {
+			Dragboard db = cardView.startDragAndDrop(TransferMode.MOVE);
+			ClipboardContent content = new ClipboardContent();
+			content.put(DataFormat.IMAGE, cardView);
+			db.setContent(content);
+			// Put the image being dragged centered behind the cursor
+			db.setDragView(cardView.snapshot(null, null), 60, 90);
 
-				// test what is the id of the card being dragged
-				System.out.println(card.getId());
+			// Hide the card being dragged
+			cardView.setVisible(false);
 
-				// Put the image being dragged centered behind the cursor
-				// ImageView dragCard = graphicFromSheet.cardGet(card.getSuit(),
-				// card.getNumber());
-				db.setDragView(cardView.snapshot(null, null), 60, 90);
+			event.consume();
+		});
 
-				// Hide the card being dragged
-				cardView.setVisible(false);
+		cardView.setOnDragDone(event -> {
+			if (!event.isAccepted()) {
+				cardView.setVisible(true);
+			} else {
+				cardView.setVisible(true);
+				currentPile.removeTopCard();
+				currentPile.getStackView();
+			}
+			event.consume();
+		});
+		return cardView;
+	}
 
-				// Set the source of the drag event to the current pile
-				currentPile.setUserData(cardView);
+	// set the drop event
+	public void setupDropTarget(StackPane targetPane, Pile targetPile) {
+		targetPane.setOnDragOver(event -> {
+			if (event.getGestureSource() != targetPane) {
+				event.acceptTransferModes(TransferMode.MOVE);
+			}
+			event.consume();
+		});
 
-				event.consume();
+		targetPane.setOnDragDropped(event -> {
+			boolean success = false;
+			// Get the card and image view from the above methods
+			ImageView cardView = (ImageView) event.getGestureSource();
+			Card draggedCard = (Card) cardView.getUserData();
 
-				imageViewToPaneMap.put(cardView, currentPile);
-			});
+			success = targetPile.addCard(draggedCard);
 
-			cardView.setOnDragDone(event -> {
-				if (!event.isAccepted()) {
-					currentPile.getChildren().add(cardView);
-					cardView.setVisible(true);
-				}
-				imageViewToPaneMap.remove(cardView);
-				event.consume();
-			});
-
-			return cardView;
-		}
-
-		// set the drop event
-		private void setupDropTarget(StackPane targetPane) {
-			targetPane.setOnDragOver(event -> {
-				if (event.getGestureSource() != targetPane && event.getDragboard().hasString()) {
-					event.acceptTransferModes(TransferMode.MOVE);
-				}
-				event.consume();
-			});
-
-			targetPane.setOnDragDropped(event -> {
-				Dragboard db = event.getDragboard();
-				boolean success = false;
-				if (db.hasString()) {
-					// gettint the cardView from the source
-					ImageView cardView = (ImageView) event.getGestureSource();
-					StackPane sourcePane = imageViewToPaneMap.get(cardView);
-
-					if (sourcePane != null) {
-						// add the cardView to the targetPane
-						targetPane.getChildren().add(cardView);
-						cardView.setVisible(true); // show the cardView
-						// cardView.setTranslateY(targetPane.getChildren().size() * 30);
-						success = true;
-
-						// remove the cardView from the sourcePane
-						// sourcePane.setUserData(null);
-						// imageViewToPaneMap.remove(cardView);
-						event.setDropCompleted(success);
-						event.consume();
-					}
-				}
-				event.setDropCompleted(success);
-				event.consume();
-			});
-
-		}
-
+			if (success) {
+				// Update the GUI on success
+				cardView.setVisible(true);
+				targetPile.getStackView();
+				event.setDropCompleted(true);
+			} else {
+				// If the card couldn't be added
+				System.out.println("Card could not be added to the pile.");
+				event.setDropCompleted(false);
+			}
+			event.setDropCompleted(success);
+			event.consume();
+		});
+	}
 }

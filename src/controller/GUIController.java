@@ -2,6 +2,7 @@ package controller;
 
 import java.util.List;
 
+import gui.DragAndDrop;
 import javafx.fxml.FXML;
 import javafx.scene.layout.StackPane;
 import model.Card;
@@ -18,6 +19,7 @@ public class GUIController {
 	private StackPane talon;
 
 	private Deck deck;
+	private DragAndDrop dragAndDrop = DragAndDrop.getInstance();;
 
 	// initialize the GUI controller
 	public void initialize() {
@@ -35,12 +37,16 @@ public class GUIController {
 			List<Card> cards = deck.deal(i + 1);
 			tableau.setCardList(cards);
 			tableau.flipTopCard();
-			tableau.getStackView(tableauPiles[i]);
+			tableau.setStackPane(tableauPiles[i]);
+			tableau.getStackView();
+			dragAndDrop.setupDropTarget(tableauPiles[i], tableau);
 		}
 
 		for (int i = 0; i < 4; i++) {
 			Foundation foundation = new Foundation();
-			foundation.getStackView(foundationPiles[i]);
+			foundation.setStackPane(foundationPiles[i]);
+			foundation.getStackView();
+			dragAndDrop.setupDropTarget(foundationPiles[i], foundation);
 		}
 	}
 }

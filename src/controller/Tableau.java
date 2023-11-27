@@ -1,18 +1,18 @@
 package controller;
 
-import javafx.scene.layout.StackPane;
+import gui.DragAndDrop;
 import model.Card;
-import model.Rank;
 
 public class Tableau extends Pile {
 	private int xOffset = 0;
 	private int yOffset = 20;
+	
+	private DragAndDrop dragAndDrop = DragAndDrop.getInstance();
 
 	boolean canAddCard(Card card) {
 		if (cards.isEmpty()) {
 			// If the pile is empty, only kings can be added
-			Card topCard = cards.get(cards.size() - 1);
-			return (topCard.getRank() == Rank.KING);
+			return (card.getRank().getValue() == 13);
 		} else {
 			Card topCard = cards.get(cards.size() - 1);
 			// Check if the colors alternate
@@ -36,14 +36,18 @@ public class Tableau extends Pile {
 		return null; // Pile is empty
 	}
 
+	// If the top card is face down, flip it up and put it in play
 	public void flipTopCard() {
 		Card topCard = cards.get(cards.size() - 1);
-		if (topCard.isFaceUp() == false) {
+		if (topCard.isFaceUp() != true) {
 			topCard.flip();
+			dragAndDrop.createDraggableCardView(topCard, this);
 		}
 	}
 	
-	public void getStackView(StackPane stackPane) {
+	// Update the GUI
+	public void getStackView() {
+		stackPane.getChildren().clear();
 		graphics.stackGenetator(stackPane, cards, xOffset, yOffset);
 	}
 }
