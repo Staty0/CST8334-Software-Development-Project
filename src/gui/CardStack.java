@@ -1,7 +1,13 @@
 package gui;
 
+import java.util.Iterator;
+import java.util.List;
+
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import model.Card;
 
 public class CardStack {
 	// Singleton pattern to avoid multiple unneeded objects
@@ -19,36 +25,31 @@ public class CardStack {
 		return single_instance;
 	}
 
-	// Card back only stack
-	public StackPane stackGenetator(int cards, int xoffset, int yoffset) {
+	public void stackGenetator(StackPane stackPane, List<Card> cards, int xOffset, int yOffset) {
+		// Add a blank back to show empty stacks
+		stackPane.getChildren().add(createBlankArea());
 
-		// Create a StackPane to hold the layered ImageViews
-		StackPane stackPane = new StackPane();
+		// iterator to go through the cards given.
+		if (cards != null) {
+			Iterator<Card> iterator = cards.iterator();
+			int index = 0;
 
-		for (int i = 0; i < cards; i++) {
-			ImageView layeredImageView = graphics.cardGet(5, 3);
-			layeredImageView.setTranslateX(xoffset * -(i + 1)); // Adjust the X offset as needed
-			layeredImageView.setTranslateY(yoffset * (i + 1)); // Adjust the Y offset as needed
-			stackPane.getChildren().add(layeredImageView);
+			while (iterator.hasNext()) {
+				Card card = iterator.next();
+				ImageView layeredImageView = card.getImageView();
+				layeredImageView.setTranslateX(xOffset * -index); // Adjust the X offset as needed
+				layeredImageView.setTranslateY(yOffset * index); // Adjust the Y offset as needed
+				stackPane.getChildren().add(layeredImageView);
+				index++;
+			}
 		}
-		
-		// Create a Scene with the StackPane
-		return stackPane;
 	}
 
-	// Stacking with numbers
-	public StackPane stackGenetator(int xoffset, int yoffset, int[][] cards) {
-			// Create a StackPane to hold the layered ImageViews
-			StackPane stackPane = new StackPane();
-			
-			for (int i = 0; i < cards.length; i++) {
-				ImageView layeredImageView = graphics.cardGet(cards[i]);
-				layeredImageView.setTranslateX(xoffset * -(i + 1));
-				layeredImageView.setTranslateY(yoffset * (i + 1)); 
-				stackPane.getChildren().add(layeredImageView);
-			}
-			
-			// Create a Scene with the StackPane
-			return stackPane;
-		}
+	// Empty Rectangle for blank area
+	private Rectangle createBlankArea() {
+		Rectangle card = new Rectangle(120, 180);
+		card.setFill(Color.WHITE);
+		card.setStroke(Color.BLACK);
+		return card;
+	}
 }

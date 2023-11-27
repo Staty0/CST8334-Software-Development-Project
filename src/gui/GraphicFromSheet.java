@@ -4,11 +4,10 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DataFormat;
-import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
 
-class GraphicFromSheet {
+public class GraphicFromSheet {
 	// Singleton pattern to avoid multiple unneeded objects
 	private static GraphicFromSheet single_instance = null;
 
@@ -52,12 +51,6 @@ class GraphicFromSheet {
 			addDragAndDrop(imageView);
 		}
 
-		return imageView;
-	}
-
-	// Array version of the cardGet, suit goes first, number second
-	public ImageView cardGet(int[] card) {
-		ImageView imageView = cardGet(card[0], card[1]);
 		return imageView;
 	}
 
