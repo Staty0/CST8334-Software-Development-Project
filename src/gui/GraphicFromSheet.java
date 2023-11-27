@@ -4,7 +4,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DataFormat;
-import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
 
@@ -52,12 +51,6 @@ public class GraphicFromSheet {
 			addDragAndDrop(imageView);
 		}
 
-		return imageView;
-	}
-
-	// Array version of the cardGet, suit goes first, number second
-	public ImageView cardGet(int[] card) {
-		ImageView imageView = cardGet(card[0], card[1]);
 		return imageView;
 	}
 

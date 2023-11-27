@@ -1,9 +1,12 @@
 package controller;
 
+import javafx.scene.layout.StackPane;
 import model.Card;
 import model.Rank;
 
 public class Foundation extends Pile {
+	private int xOffset = 0;
+	private int yOffset = 0;
 	
 	boolean canAddCard(Card card) {
         if (cards.isEmpty()) {
@@ -21,5 +24,8 @@ public class Foundation extends Pile {
         }
     }
 
-	
+
+	public void getStackView(StackPane stackPane) {
+		graphics.stackGenetator(stackPane, cards, xOffset, yOffset);
+	}
 }

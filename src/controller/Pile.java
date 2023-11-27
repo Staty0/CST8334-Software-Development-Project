@@ -2,10 +2,18 @@ package controller;
 
 import java.util.List;
 
+import gui.CardStack;
 import model.Card;
 
 public abstract class Pile {
     public List<Card> cards;
+    
+    public void setCardList(List<Card> cards) {
+		this.cards = cards;
+	}
+
+
+	CardStack graphics = CardStack.getInstance();
 
     public List<Card> getCards() {
         return cards;
@@ -29,6 +37,4 @@ public abstract class Pile {
         }
         return null; // Pile is empty
     }
-    
-    
 }

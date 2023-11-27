@@ -1,34 +1,32 @@
-package com.example;
+package gui;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Polygon;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+
+import controller.GUIController;
 
 
 /**
  * JavaFX App
  */
 public class App extends Application {
-
+    GUIController controller = new GUIController();
     private static Scene scene;
-
     @Override
     public void start(Stage stage) throws IOException {
+        // Load the FXML file
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("gui.fxml"));
 
-        Parent root = FXMLLoader.load(getClass().getResource("gui.fxml"));
-
+        // Load the root node
+        Parent root = loader.load();
+        
         stage.setTitle("Solitaire Game");
-
+        
         stage.setScene(new Scene(root));
         stage.show();
     }
