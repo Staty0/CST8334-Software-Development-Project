@@ -8,6 +8,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import model.Card;
+import model.ConfigReader;
 
 public class CardStack {
 	// Singleton pattern to avoid multiple unneeded objects
@@ -47,9 +48,11 @@ public class CardStack {
 
 	// Empty Rectangle for blank area
 	private Rectangle createBlankArea() {
-		Rectangle card = new Rectangle(120, 180);
-		card.setFill(Color.WHITE);
-		card.setStroke(Color.BLACK);
-		return card;
+		int[] sizeSetting = ConfigReader.getCardSize();
+		Rectangle cardSlot = new Rectangle(sizeSetting[0], sizeSetting[1]);
+		cardSlot.setFill(Color.web(ConfigReader.getBackgroundColour()));
+		cardSlot.setStroke(Color.BLACK);
+		cardSlot.setStrokeWidth(3.0);
+		return cardSlot;
 	}
 }

@@ -3,8 +3,10 @@ package controller;
 import java.util.List;
 
 import javafx.fxml.FXML;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import model.Card;
+import model.ConfigReader;
 import model.Deck;
 
 public class GUIController {
@@ -16,6 +18,8 @@ public class GUIController {
 	private StackPane stock;
 	@FXML
 	private StackPane talon;
+	@FXML
+	private GridPane gridPane;
 
 	private Deck deck;
 	private CardDragAndDrop dragAndDrop = CardDragAndDrop.getInstance();;
@@ -27,6 +31,8 @@ public class GUIController {
 
 		deck = new Deck();
 		deck.shuffle();
+		
+		gridPane.setStyle("-fx-background-color:" + ConfigReader.getBackgroundColour());
 
 		// Fill the tableau piles
 		// the logic is that the first tableau pile has 1 card, the second has 2 cards,

@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.geometry.Insets?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity"
+<GridPane fx:id="gridPane" maxHeight="-Infinity" maxWidth="-Infinity"
 	minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0"
 	prefWidth="1366.0" xmlns="http://javafx.com/javafx/21"
 	xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.GUIController">
