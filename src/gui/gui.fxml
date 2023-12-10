@@ -82,13 +82,13 @@
 				<Insets top="5" right="5" bottom="5" left="5" />
 			</padding>
 		</StackPane>
-		<StackPane fx:id="stock" prefHeight="180.0"
+		<StackPane fx:id="talon" prefHeight="180.0"
 			prefWidth="120.0" GridPane.columnIndex="7" GridPane.rowIndex="0">
 			<padding>
-				<Insets top="5" right="5" bottom="5" left="5" />
+				<Insets top="5" right="5" bottom="5" left="80" />
 			</padding>
 		</StackPane>
-		<StackPane fx:id="talon" prefHeight="180.0"
+		<StackPane fx:id="stock" prefHeight="180.0"
 			prefWidth="120.0" GridPane.columnIndex="6" GridPane.rowIndex="0">
 			<padding>
 				<Insets top="5" right="5" bottom="5" left="5" />

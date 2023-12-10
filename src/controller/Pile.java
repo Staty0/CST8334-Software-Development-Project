@@ -49,5 +49,5 @@ public abstract class Pile {
         return null; // Pile is empty
     }
     
-    abstract public void getStackView();
+    abstract public void updateStackView();
 }

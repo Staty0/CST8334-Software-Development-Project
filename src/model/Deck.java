@@ -45,6 +45,13 @@ public class Deck {
         return dealtCards;
     }
 	
+	//Deal the rest of the deck
+	public List<Card> dealAll() {
+		List<Card> dealtCards = new ArrayList<>(cards);
+		cards.clear();
+		return dealtCards;
+    }
+	
 	// Check if the deck is empty
     public boolean isEmpty() {
         return cards.isEmpty();

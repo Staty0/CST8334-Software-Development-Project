@@ -2,7 +2,6 @@ package controller;
 
 import java.util.List;
 
-import gui.DragAndDrop;
 import javafx.fxml.FXML;
 import javafx.scene.layout.StackPane;
 import model.Card;
@@ -19,7 +18,7 @@ public class GUIController {
 	private StackPane talon;
 
 	private Deck deck;
-	private DragAndDrop dragAndDrop = DragAndDrop.getInstance();;
+	private CardDragAndDrop dragAndDrop = CardDragAndDrop.getInstance();;
 
 	// initialize the GUI controller
 	public void initialize() {
@@ -38,15 +37,33 @@ public class GUIController {
 			tableau.setCardList(cards);
 			tableau.flipTopCard();
 			tableau.setStackPane(tableauPiles[i]);
-			tableau.getStackView();
+			tableau.updateStackView();
 			dragAndDrop.setupDropTarget(tableauPiles[i], tableau);
 		}
-
+		
+		
+		// Setup the foundation piles
 		for (int i = 0; i < 4; i++) {
 			Foundation foundation = new Foundation();
 			foundation.setStackPane(foundationPiles[i]);
-			foundation.getStackView();
+			foundation.updateStackView();
 			dragAndDrop.setupDropTarget(foundationPiles[i], foundation);
 		}
+		
+		// Setup the talon pile
+		TalonClickEvent talonClick = new TalonClickEvent();
+		Talon talonClass = new Talon();
+		talonClick.setTalon(talonClass);
+		
+		talonClass.setCardList(deck.dealAll());
+		talonClass.setStackPane(talon);
+		talon.setOnMouseClicked(talonClick);
+		talonClass.updateStackView();
+		
+		// Setup the stock pile
+		Stock stockClass = new Stock();
+		talonClick.setStock(stockClass);
+		stockClass.setStackPane(stock);
+		stockClass.updateStackView();
 	}
 }

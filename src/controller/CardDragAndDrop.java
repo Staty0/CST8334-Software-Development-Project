@@ -1,8 +1,5 @@
-package gui;
+package controller;
 
-import controller.Foundation;
-import controller.Pile;
-import controller.Tableau;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DataFormat;
@@ -11,18 +8,15 @@ import javafx.scene.input.TransferMode;
 import javafx.scene.layout.StackPane;
 import model.Card;
 
-public class DragAndDrop {
-	private Pile currentPile;
-	private StackPane stackpane;
+public class CardDragAndDrop {
+	private static CardDragAndDrop single_instance = null;
 
-	private static DragAndDrop single_instance = null;
-
-	private DragAndDrop() {
+	private CardDragAndDrop() {
 	}
 
-	public static synchronized DragAndDrop getInstance() {
+	public static synchronized CardDragAndDrop getInstance() {
 		if (single_instance == null)
-			single_instance = new DragAndDrop();
+			single_instance = new CardDragAndDrop();
 
 		return single_instance;
 	}
@@ -32,9 +26,6 @@ public class DragAndDrop {
 	public ImageView createDraggableCardView(Card card, Pile currentPile) {
 		ImageView cardView = card.getImageView();
 		cardView.setUserData(card);
-		
-		stackpane = currentPile.getStackPane();
-		this.currentPile = currentPile;
 
 		cardView.setOnDragDetected(event -> {
 			Dragboard db = cardView.startDragAndDrop(TransferMode.MOVE);
@@ -56,7 +47,7 @@ public class DragAndDrop {
 			} else {
 				cardView.setVisible(true);
 				currentPile.removeTopCard();
-				currentPile.getStackView();
+				currentPile.updateStackView();
 			}
 			event.consume();
 		});
@@ -83,7 +74,7 @@ public class DragAndDrop {
 			if (success) {
 				// Update the GUI on success
 				cardView.setVisible(true);
-				targetPile.getStackView();
+				targetPile.updateStackView();
 				event.setDropCompleted(true);
 			} else {
 				// If the card couldn't be added
