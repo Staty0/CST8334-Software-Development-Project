@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import javafx.scene.image.ImageView;
+import javafx.scene.image.WritableImage;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -38,8 +39,26 @@ public class CardStack {
 			while (iterator.hasNext()) {
 				Card card = iterator.next();
 				ImageView layeredImageView = card.getImageView();
-				layeredImageView.setTranslateX(xOffset * -index); // Adjust the X offset as needed
-				layeredImageView.setTranslateY(yOffset * index); // Adjust the Y offset as needed
+				layeredImageView.setTranslateX(xOffset * -index); 
+				layeredImageView.setTranslateY(yOffset * index);
+				stackPane.getChildren().add(layeredImageView);
+				index++;
+			}
+		}
+	}
+	
+	public void stackSnapshotGenetator(StackPane stackPane, List<Card> cards, int xOffset, int yOffset) {
+		// iterator to go through the cards given.
+		if (cards != null) {
+			Iterator<Card> iterator = cards.iterator();
+			int index = 0;
+
+			while (iterator.hasNext()) {
+				Card card = iterator.next();
+				WritableImage writableImage = card.getImageView().snapshot(null, null);
+				ImageView layeredImageView = new ImageView(writableImage);
+				layeredImageView.setTranslateX(xOffset * -index); 
+				layeredImageView.setTranslateY(yOffset * index);
 				stackPane.getChildren().add(layeredImageView);
 				index++;
 			}

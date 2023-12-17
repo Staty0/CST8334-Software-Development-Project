@@ -11,6 +11,7 @@ import model.ConfigReader;
 public class GraphicFromSheet {
 	// Singleton pattern to avoid multiple unneeded objects
 	private static GraphicFromSheet single_instance = null;
+	private int[] sizeSetting = ConfigReader.getCardSize();
 
 	private GraphicFromSheet() {
 	}
@@ -45,7 +46,6 @@ public class GraphicFromSheet {
 		imageView.setViewport(new javafx.geometry.Rectangle2D(startX, startY, cardWidth, cardHeight));
 
 		// Resize the card to the size we need
-		int[] sizeSetting = ConfigReader.getCardSize();
 		imageView.setFitWidth(sizeSetting[0]);
 		imageView.setFitHeight(sizeSetting[1]);
 

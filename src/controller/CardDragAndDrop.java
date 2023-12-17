@@ -1,5 +1,8 @@
 package controller;
 
+import java.util.List;
+
+import gui.CardStack;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DataFormat;
@@ -7,9 +10,13 @@ import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.StackPane;
 import model.Card;
+import model.ConfigReader;
 
 public class CardDragAndDrop {
 	private static CardDragAndDrop single_instance = null;
+	private int[] sizeSetting = ConfigReader.getCardSize();
+	private int xCenter = sizeSetting[0] / 2;
+	private int yCenter = sizeSetting[1] / 2;
 
 	private CardDragAndDrop() {
 	}
@@ -21,8 +28,6 @@ public class CardDragAndDrop {
 		return single_instance;
 	}
 
-
-	// create a draggable card view
 	public ImageView createDraggableCardView(Card card, Pile currentPile) {
 		ImageView cardView = card.getImageView();
 		cardView.setUserData(card);
@@ -33,11 +38,11 @@ public class CardDragAndDrop {
 			content.put(DataFormat.IMAGE, cardView);
 			db.setContent(content);
 			// Put the image being dragged centered behind the cursor
-			db.setDragView(cardView.snapshot(null, null), 60, 90);
+			db.setDragView(cardView.snapshot(null, null), xCenter, yCenter);
 
 			// Hide the card being dragged
 			cardView.setVisible(false);
-
+			
 			event.consume();
 		});
 
@@ -54,6 +59,43 @@ public class CardDragAndDrop {
 		return cardView;
 	}
 
+	public ImageView createDraggableCardStack(List<Card> cardStack, Pile currentPile) {
+		int yOffest = 20;
+		CardStack stackCreator = CardStack.getInstance();
+		StackPane stackPane = new StackPane();
+		stackCreator.stackSnapshotGenetator(stackPane, cardStack, 0, yOffest);
+
+		Card bottomCard = cardStack.get(0);
+		ImageView bottomCardView = bottomCard.getImageView();
+		bottomCardView.setUserData(bottomCard);
+
+		bottomCardView.setOnDragDetected(event -> {
+			Dragboard db = bottomCardView.startDragAndDrop(TransferMode.MOVE);
+			ClipboardContent content = new ClipboardContent();
+			content.put(DataFormat.IMAGE, bottomCardView);
+			db.setContent(content);
+			
+			db.setDragView(stackPane.snapshot(null, null), xCenter, yCenter);
+
+			// Hide the card being dragged
+			cardStack.forEach(stackedCard -> stackedCard.getImageView().setVisible(false));
+			
+			event.consume();
+		});
+
+		bottomCardView.setOnDragDone(event -> {
+			if (!event.isAccepted()) {
+				cardStack.forEach(stackedCard -> stackedCard.getImageView().setVisible(true));
+			} else {
+				cardStack.forEach(stackedCard -> stackedCard.getImageView().setVisible(true));
+				currentPile.removeTopCard();
+				currentPile.updateStackView();
+			}
+			event.consume();
+		});
+		return bottomCardView;
+	}
+
 	// set the drop event
 	public void setupDropTarget(StackPane targetPane, Pile targetPile) {
 		targetPane.setOnDragOver(event -> {
@@ -68,9 +110,9 @@ public class CardDragAndDrop {
 			// Get the card and image view from the above methods
 			ImageView cardView = (ImageView) event.getGestureSource();
 			Card draggedCard = (Card) cardView.getUserData();
-
+			
 			success = targetPile.addCard(draggedCard);
-
+			
 			if (success) {
 				// Update the GUI on success
 				cardView.setVisible(true);
@@ -84,5 +126,11 @@ public class CardDragAndDrop {
 			event.setDropCompleted(success);
 			event.consume();
 		});
+	}
+
+	public void makeNonDraggable(Card card) {
+		ImageView cardView = card.getImageView();
+		cardView.setOnDragDetected(null);
+		cardView.setOnDragDone(null);
 	}
 }

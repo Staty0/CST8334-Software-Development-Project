@@ -41,8 +41,8 @@ public class GUIController {
 			Tableau tableau = new Tableau();
 			List<Card> cards = deck.deal(i + 1);
 			tableau.setCardList(cards);
-			tableau.flipTopCard();
 			tableau.setStackPane(tableauPiles[i]);
+			tableau.flipTopCard();
 			tableau.updateStackView();
 			dragAndDrop.setupDropTarget(tableauPiles[i], tableau);
 		}
