@@ -52,7 +52,6 @@ public class CardDragAndDrop {
 			} else {
 				cardView.setVisible(true);
 				currentPile.removeTopCard();
-				currentPile.updateStackView();
 			}
 			event.consume();
 		});
@@ -89,7 +88,6 @@ public class CardDragAndDrop {
 			} else {
 				cardStack.forEach(stackedCard -> stackedCard.getImageView().setVisible(true));
 				currentPile.removeTopCard();
-				currentPile.updateStackView();
 			}
 			event.consume();
 		});
@@ -114,9 +112,7 @@ public class CardDragAndDrop {
 			success = targetPile.addCard(draggedCard);
 			
 			if (success) {
-				// Update the GUI on success
 				cardView.setVisible(true);
-				targetPile.updateStackView();
 				event.setDropCompleted(true);
 			} else {
 				// If the card couldn't be added

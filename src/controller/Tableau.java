@@ -38,17 +38,17 @@ public class Tableau extends Pile {
 			cards.add(card);
 			
 			//Update the drag and drop to reference this pile
-			dragAndDrop.createDraggableCardView(card, this);
+			//dragAndDrop.createDraggableCardView(card, this);
 			
 			topStack.add(card);
 			dragAndDrop.createDraggableCardStack(topStack, this);
 			
             // Attempted render code update
             
-            //ImageView layeredImageView = card.getImageView();
-			//layeredImageView.setTranslateX(xOffset * cards.size() - 1);
-			//layeredImageView.setTranslateY(yOffset * cards.size() - 1); 
-			//stackPane.getChildren().add(layeredImageView);
+            ImageView layeredImageView = card.getImageView();
+			layeredImageView.setTranslateX(xOffset * (cards.size() - 1));
+			layeredImageView.setTranslateY(yOffset * (cards.size() - 1)); 
+			stackPane.getChildren().add(layeredImageView);
 			
 			return true;
 		} else {
@@ -61,8 +61,6 @@ public class Tableau extends Pile {
 	public Card removeTopCard() {
 		if (!cards.isEmpty()) {
 			Card removedCard = cards.remove(cards.size() - 1);
-			
-			//stackPane.getChildren().remove(cards.size());
 			
 			// If the teableau still has cards, check to make sure the top one is face up
 			if (!cards.isEmpty()) {
@@ -78,6 +76,13 @@ public class Tableau extends Pile {
 		Card topCard = cards.get(cards.size() - 1);
 		if (topCard.isFaceUp() != true) {
 			topCard.flip();
+			
+			stackPane.getChildren().remove(stackPane.getChildren().size() - 1);
+            ImageView layeredImageView = topCard.getImageView();
+			layeredImageView.setTranslateX(xOffset * (cards.size() - 1));
+			layeredImageView.setTranslateY(yOffset * (cards.size() - 1)); 
+			stackPane.getChildren().add(layeredImageView);
+			
 			dragAndDrop.createDraggableCardView(topCard, this);
 			topStack.clear();
 			topStack.add(topCard);
