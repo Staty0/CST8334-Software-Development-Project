@@ -1,6 +1,7 @@
 package controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import gui.CardStack;
@@ -68,9 +69,16 @@ public abstract class Pile {
 
 	public void updateDragNDrop() {
 		// Update the top card's drag and drop to reference it's new pile
-		Card topCard = cards.get(cards.size() - 1);
-		dragAndDrop.createDraggableCardView(topCard, this);
+		if (!cards.isEmpty()) {
+			Card topCard = cards.get(cards.size() - 1);
+			List<Card> listAdapter = new ArrayList<Card>(Arrays.asList(topCard));
+			dragAndDrop.createDraggableCardStack(listAdapter, this);
+		}
 	}
 
-	abstract public void updateStackView();
+	// Update the GUI
+	public void updateStackView() {
+		stackPane.getChildren().clear();
+		graphics.stackGenetator(stackPane, cards, xOffset, yOffset);
+	}
 }

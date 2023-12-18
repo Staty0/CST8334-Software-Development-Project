@@ -1,5 +1,8 @@
 package controller;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 import gui.CardStack;
@@ -17,6 +20,7 @@ public class CardDragAndDrop {
 	private int[] sizeSetting = ConfigReader.getCardSize();
 	private int xCenter = sizeSetting[0] / 2;
 	private int yCenter = sizeSetting[1] / 2;
+	private Pile lastTarget;
 
 	private CardDragAndDrop() {
 	}
@@ -28,57 +32,28 @@ public class CardDragAndDrop {
 		return single_instance;
 	}
 
-	public ImageView createDraggableCardView(Card card, Pile currentPile) {
-		ImageView cardView = card.getImageView();
-		cardView.setUserData(card);
-
-		cardView.setOnDragDetected(event -> {
-			Dragboard db = cardView.startDragAndDrop(TransferMode.MOVE);
-			ClipboardContent content = new ClipboardContent();
-			content.put(DataFormat.IMAGE, cardView);
-			db.setContent(content);
-			// Put the image being dragged centered behind the cursor
-			db.setDragView(cardView.snapshot(null, null), xCenter, yCenter);
-
-			// Hide the card being dragged
-			cardView.setVisible(false);
-			
-			event.consume();
-		});
-
-		cardView.setOnDragDone(event -> {
-			if (!event.isAccepted()) {
-				cardView.setVisible(true);
-			} else {
-				cardView.setVisible(true);
-				currentPile.removeTopCard();
-			}
-			event.consume();
-		});
-		return cardView;
-	}
-
 	public ImageView createDraggableCardStack(List<Card> cardStack, Pile currentPile) {
 		int yOffest = 20;
+
 		CardStack stackCreator = CardStack.getInstance();
 		StackPane stackPane = new StackPane();
 		stackCreator.stackSnapshotGenetator(stackPane, cardStack, 0, yOffest);
 
 		Card bottomCard = cardStack.get(0);
 		ImageView bottomCardView = bottomCard.getImageView();
-		bottomCardView.setUserData(bottomCard);
+		bottomCardView.setUserData(cardStack);
 
 		bottomCardView.setOnDragDetected(event -> {
 			Dragboard db = bottomCardView.startDragAndDrop(TransferMode.MOVE);
 			ClipboardContent content = new ClipboardContent();
 			content.put(DataFormat.IMAGE, bottomCardView);
 			db.setContent(content);
-			
+
 			db.setDragView(stackPane.snapshot(null, null), xCenter, yCenter);
 
 			// Hide the card being dragged
 			cardStack.forEach(stackedCard -> stackedCard.getImageView().setVisible(false));
-			
+
 			event.consume();
 		});
 
@@ -87,7 +62,11 @@ public class CardDragAndDrop {
 				cardStack.forEach(stackedCard -> stackedCard.getImageView().setVisible(true));
 			} else {
 				cardStack.forEach(stackedCard -> stackedCard.getImageView().setVisible(true));
-				currentPile.removeTopCard();
+				for (int i = 0; i < cardStack.size(); i++) {
+					currentPile.removeTopCard();
+				}
+				lastTarget.updateDragNDrop();
+				currentPile.updateDragNDrop();
 			}
 			event.consume();
 		});
@@ -107,21 +86,25 @@ public class CardDragAndDrop {
 			boolean success = false;
 			// Get the card and image view from the above methods
 			ImageView cardView = (ImageView) event.getGestureSource();
-			Card draggedCard = (Card) cardView.getUserData();
-			
-			success = targetPile.addCard(draggedCard);
-			
+			List<Card> draggedCards = (List<Card>) cardView.getUserData();
+
+			success = targetPile.canAddCard(draggedCards.get(0));
+
 			if (success) {
-				cardView.setVisible(true);
+				Iterator<Card> iterator = draggedCards.iterator();
+				while (iterator.hasNext()) {
+					targetPile.addCard(iterator.next());
+				}
+				lastTarget = targetPile;
 				event.setDropCompleted(true);
 			} else {
 				// If the card couldn't be added
-				System.out.println("Card could not be added to the pile.");
 				event.setDropCompleted(false);
 			}
 			event.setDropCompleted(success);
 			event.consume();
 		});
+
 	}
 
 	public void makeNonDraggable(Card card) {
