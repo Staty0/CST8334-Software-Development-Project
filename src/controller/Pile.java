@@ -1,17 +1,23 @@
 package controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import gui.CardStack;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import model.Card;
 
 public abstract class Pile {
-    protected List<Card> cards = new ArrayList<Card>(); ;
-    protected StackPane stackPane;
-    
-    public void setStackPane(StackPane stackPane) {
+	private int xOffset = 0;
+	private int yOffset = 0;
+	protected List<Card> cards = new ArrayList<Card>();;
+	protected StackPane stackPane;
+	CardStack graphics = CardStack.getInstance();
+	protected CardDragAndDrop dragAndDrop = CardDragAndDrop.getInstance();
+
+	public void setStackPane(StackPane stackPane) {
 		this.stackPane = stackPane;
 	}
 
@@ -23,31 +29,56 @@ public abstract class Pile {
 		this.cards = cards;
 	}
 
-	CardStack graphics = CardStack.getInstance();
+	public List<Card> getCards() {
+		return cards;
+	}
 
-    public List<Card> getCards() {
-        return cards;
-    }
+	public boolean addCard(Card card) {
+		if (canAddCard(card)) {
 
-    public boolean addCard(Card card) {
-        if (canAddCard(card)) {
-            cards.add(card);
-            return true;
-        } else {
-            // Handle invalid move (e.g., show a message, log, etc.)
-            System.out.println("Invalid move");
-            return false;
-        }
-    }
+			if (!cards.isEmpty()) {
+				Card pastTopCard = cards.get(cards.size() - 1);
+				dragAndDrop.makeNonDraggable(pastTopCard);
+			}
 
-    abstract boolean canAddCard(Card card);
-    
-    public Card removeTopCard() {
-        if (!cards.isEmpty()) {
-            return cards.remove(cards.size() - 1);
-        }
-        return null; // Pile is empty
-    }
-    
-    abstract public void getStackView();
+			cards.add(card);
+
+			// render code
+
+			ImageView layeredImageView = card.getImageView();
+			layeredImageView.setTranslateX(xOffset * (cards.size() - 1));
+			layeredImageView.setTranslateY(yOffset * (cards.size() - 1));
+			stackPane.getChildren().add(layeredImageView);
+
+			return true;
+		} else {
+			// Handle invalid move (e.g., show a message, log, etc.)
+			System.out.println("Invalid move");
+			return false;
+		}
+	}
+
+	abstract boolean canAddCard(Card card);
+
+	public Card removeTopCard() {
+		if (!cards.isEmpty()) {
+			return cards.remove(cards.size() - 1);
+		}
+		return null; // Pile is empty
+	}
+
+	public void updateDragNDrop() {
+		// Update the top card's drag and drop to reference it's new pile
+		if (!cards.isEmpty()) {
+			Card topCard = cards.get(cards.size() - 1);
+			List<Card> listAdapter = new ArrayList<Card>(Arrays.asList(topCard));
+			dragAndDrop.createDraggableCardStack(listAdapter, this);
+		}
+	}
+
+	// Update the GUI
+	public void updateStackView() {
+		stackPane.getChildren().clear();
+		graphics.stackGenetator(stackPane, cards, xOffset, yOffset);
+	}
 }

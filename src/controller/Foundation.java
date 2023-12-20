@@ -1,6 +1,7 @@
 package controller;
 
 import model.Card;
+import model.Rank;
 
 public class Foundation extends Pile {
 	private int xOffset = 0;
@@ -9,7 +10,7 @@ public class Foundation extends Pile {
 	boolean canAddCard(Card card) {
 		if (cards.isEmpty()) {
 			// If the pile is empty, only aces can be added
-			return (card.getRank().getValue() == 1);
+			return (card.getRank() == Rank.ACE);
 		} else {
 			Card topCard = cards.get(cards.size() - 1);
 			// Check if same suit
@@ -23,7 +24,7 @@ public class Foundation extends Pile {
 	}
 
 	// Update the GUI
-	public void getStackView() {
+	public void updateStackView() {
 		stackPane.getChildren().clear();
 		graphics.stackGenetator(stackPane, cards, xOffset, yOffset);
 	}

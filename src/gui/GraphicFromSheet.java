@@ -6,10 +6,12 @@ import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DataFormat;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
+import model.ConfigReader;
 
 public class GraphicFromSheet {
 	// Singleton pattern to avoid multiple unneeded objects
 	private static GraphicFromSheet single_instance = null;
+	private int[] sizeSetting = ConfigReader.getCardSize();
 
 	private GraphicFromSheet() {
 	}
@@ -44,8 +46,8 @@ public class GraphicFromSheet {
 		imageView.setViewport(new javafx.geometry.Rectangle2D(startX, startY, cardWidth, cardHeight));
 
 		// Resize the card to the size we need
-		imageView.setFitWidth(120);
-		imageView.setFitHeight(180);
+		imageView.setFitWidth(sizeSetting[0]);
+		imageView.setFitHeight(sizeSetting[1]);
 
 		if (suit < 5) {
 			addDragAndDrop(imageView);
