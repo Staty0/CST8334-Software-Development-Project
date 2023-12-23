@@ -1,10 +1,17 @@
 package controller;
 
+import java.io.IOException;
 import java.util.List;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
 import model.Card;
 import model.ConfigReader;
 import model.Deck;
@@ -72,4 +79,17 @@ public class GUIController {
 		stockClass.setStackPane(stock);
 		stockClass.updateStackView();
 	}
+	
+	// back to main menu
+	public void backToMenu(ActionEvent event) {
+		try {
+            Parent gui = FXMLLoader.load(getClass().getResource("/gui/welcomgui.fxml"));
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(gui));
+            stage.centerOnScreen();
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

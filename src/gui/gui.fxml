@@ -1,98 +1,102 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.StackPane?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
 
-<GridPane fx:id="gridPane" maxHeight="-Infinity" maxWidth="-Infinity"
-	minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0"
-	prefWidth="1366.0" xmlns="http://javafx.com/javafx/21"
-	xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.GUIController">
+<GridPane fx:id="gridPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1366.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.GUIController">
 	<children>
-		<StackPane fx:id="foundation1" prefHeight="180.0"
-			prefWidth="120.0" GridPane.columnIndex="0" GridPane.rowIndex="0">
+		<StackPane fx:id="foundation1" prefHeight="180.0" prefWidth="120.0" GridPane.columnIndex="0" GridPane.rowIndex="0">
 			<padding>
-				<Insets top="5" right="5" bottom="5" left="5" />
+				<Insets bottom="5" left="5" right="5" top="5" />
 			</padding>
 		</StackPane>
-		<StackPane fx:id="foundation2" prefHeight="180.0"
-			prefWidth="120.0" GridPane.columnIndex="1" GridPane.rowIndex="0">
+		<StackPane fx:id="foundation2" prefHeight="180.0" prefWidth="120.0" GridPane.columnIndex="1" GridPane.rowIndex="0">
 			<padding>
-				<Insets top="5" right="5" bottom="5" left="5" />
+				<Insets bottom="5" left="5" right="5" top="5" />
 			</padding>
 		</StackPane>
-		<StackPane fx:id="foundation3" prefHeight="180.0"
-			prefWidth="120.0" GridPane.columnIndex="2" GridPane.rowIndex="0">
+		<StackPane fx:id="foundation3" prefHeight="180.0" prefWidth="120.0" GridPane.columnIndex="2" GridPane.rowIndex="0">
 			<padding>
-				<Insets top="5" right="5" bottom="5" left="5" />
+				<Insets bottom="5" left="5" right="5" top="5" />
 			</padding>
 		</StackPane>
-		<StackPane fx:id="foundation4" prefHeight="180.0"
-			prefWidth="120.0" GridPane.columnIndex="3" GridPane.rowIndex="0">
+		<StackPane fx:id="foundation4" prefHeight="180.0" prefWidth="120.0" GridPane.columnIndex="3" GridPane.rowIndex="0">
 			<padding>
-				<Insets top="5" right="5" bottom="5" left="5" />
+				<Insets bottom="5" left="5" right="5" top="5" />
 			</padding>
 		</StackPane>
-		<StackPane fx:id="tableau1" prefHeight="180.0"
-			prefWidth="120.0" GridPane.columnIndex="0" GridPane.rowIndex="1">
+		<StackPane fx:id="tableau1" prefHeight="180.0" prefWidth="120.0" GridPane.columnIndex="0" GridPane.rowIndex="1">
 			<padding>
-				<Insets top="5" right="5" bottom="5" left="5" />
+				<Insets bottom="5" left="5" right="5" top="5" />
 			</padding>
 		</StackPane>
-		<StackPane fx:id="tableau2" prefHeight="180.0"
-			prefWidth="120.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+		<StackPane fx:id="tableau2" prefHeight="180.0" prefWidth="120.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
 			<padding>
-				<Insets top="5" right="5" bottom="5" left="5" />
+				<Insets bottom="5" left="5" right="5" top="5" />
 			</padding>
 		</StackPane>
-		<StackPane fx:id="tableau3" prefHeight="180.0"
-			prefWidth="120.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+		<StackPane fx:id="tableau3" prefHeight="180.0" prefWidth="120.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
 			<padding>
-				<Insets top="5" right="5" bottom="5" left="5" />
+				<Insets bottom="5" left="5" right="5" top="5" />
 			</padding>
 		</StackPane>
-		<StackPane fx:id="tableau4" prefHeight="180.0"
-			prefWidth="120.0" GridPane.columnIndex="3" GridPane.rowIndex="1">
+		<StackPane fx:id="tableau4" prefHeight="180.0" prefWidth="120.0" GridPane.columnIndex="3" GridPane.rowIndex="1">
 			<padding>
-				<Insets top="5" right="5" bottom="5" left="5" />
+				<Insets bottom="5" left="5" right="5" top="5" />
 			</padding>
 		</StackPane>
-		<StackPane fx:id="tableau5" prefHeight="180.0"
-			prefWidth="120.0" GridPane.columnIndex="4" GridPane.rowIndex="1">
+		<StackPane fx:id="tableau5" prefHeight="180.0" prefWidth="120.0" GridPane.columnIndex="4" GridPane.rowIndex="1">
 			<padding>
-				<Insets top="5" right="5" bottom="5" left="5" />
+				<Insets bottom="5" left="5" right="5" top="5" />
 			</padding>
 		</StackPane>
-		<StackPane fx:id="tableau6" prefHeight="180.0"
-			prefWidth="120.0" GridPane.columnIndex="5" GridPane.rowIndex="1">
+		<StackPane fx:id="tableau6" prefHeight="180.0" prefWidth="120.0" GridPane.columnIndex="5" GridPane.rowIndex="1">
 			<padding>
-				<Insets top="5" right="5" bottom="5" left="5" />
+				<Insets bottom="5" left="5" right="5" top="5" />
 			</padding>
 		</StackPane>
-		<StackPane fx:id="tableau7" prefHeight="180.0"
-			prefWidth="120.0" GridPane.columnIndex="6" GridPane.rowIndex="1">
+		<StackPane fx:id="tableau7" prefHeight="180.0" prefWidth="120.0" GridPane.columnIndex="6" GridPane.rowIndex="1">
 			<padding>
-				<Insets top="5" right="5" bottom="5" left="5" />
+				<Insets bottom="5" left="5" right="5" top="5" />
 			</padding>
 		</StackPane>
-		<StackPane fx:id="tableau8" layoutY="250.0"
-			prefHeight="180.0" prefWidth="120.0" GridPane.columnIndex="7"
-			GridPane.rowIndex="1">
+		<StackPane fx:id="tableau8" layoutY="250.0" prefHeight="180.0" prefWidth="120.0" GridPane.columnIndex="7" GridPane.rowIndex="1">
 			<padding>
-				<Insets top="5" right="5" bottom="5" left="5" />
+				<Insets bottom="5" left="5" right="5" top="5" />
 			</padding>
 		</StackPane>
-		<StackPane fx:id="talon" prefHeight="180.0"
-			prefWidth="120.0" GridPane.columnIndex="7" GridPane.rowIndex="0">
+		<StackPane fx:id="talon" prefHeight="180.0" prefWidth="120.0" GridPane.columnIndex="7" GridPane.rowIndex="0">
 			<padding>
-				<Insets top="5" right="5" bottom="5" left="80" />
+				<Insets bottom="5" left="80" right="5" top="5" />
 			</padding>
 		</StackPane>
-		<StackPane fx:id="stock" prefHeight="180.0"
-			prefWidth="120.0" GridPane.columnIndex="6" GridPane.rowIndex="0">
+		<StackPane fx:id="stock" prefHeight="180.0" prefWidth="120.0" GridPane.columnIndex="6" GridPane.rowIndex="0">
 			<padding>
-				<Insets top="5" right="5" bottom="5" left="5" />
+				<Insets bottom="5" left="5" right="5" top="5" />
 			</padding>
 		</StackPane>
+      <Button alignment="BOTTOM_RIGHT" mnemonicParsing="false" onAction="#backToMenu" style="-fx-background-color: linear-gradient(from 25% 25% to 100% 100%, #89CFF0, #1D84B5); -fx-background-radius: 30; -fx-text-fill: white; -fx-font-size: 18px; -fx-font-weight: bold;" text="Back to Menu" textAlignment="CENTER" GridPane.columnIndex="8" GridPane.rowIndex="2" />
+		
+		
 	</children>
+   <columnConstraints>
+      <ColumnConstraints />
+      <ColumnConstraints />
+      <ColumnConstraints />
+      <ColumnConstraints />
+      <ColumnConstraints />
+      <ColumnConstraints />
+      <ColumnConstraints />
+      <ColumnConstraints />
+      <ColumnConstraints />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+   </rowConstraints>
 </GridPane>
