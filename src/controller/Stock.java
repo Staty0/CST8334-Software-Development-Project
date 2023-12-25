@@ -12,9 +12,8 @@ public class Stock extends Pile {
 	private int yOffset = 0;
 	
 	@Override
-	public boolean addCard(Card card) {
-		if (canAddCard(card)) {
-
+	public boolean addCard(Card card, int count) {
+		if (canAddCard(card, count)) {
 			cards.add(card);
 			
 			// Render code
@@ -25,15 +24,14 @@ public class Stock extends Pile {
 
 			return true;
 		} else {
-			// Handle invalid move (e.g., show a message, log, etc.)
-			System.out.println("Invalid move");
+			// Handle invalid move
 			return false;
 		}
 	}
 
 
 	@Override
-	boolean canAddCard(Card card) {
+	boolean canAddCard(Card card, int count) {
 		return !card.isFaceUp();
 	}
 

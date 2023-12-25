@@ -1,7 +1,6 @@
 package controller;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import javafx.scene.image.ImageView;
@@ -13,7 +12,7 @@ public class Tableau extends Pile {
 	private int yOffset = 20;
 	private List<Card> topStack = new ArrayList<Card>();
 
-	boolean canAddCard(Card card) {
+	boolean canAddCard(Card card, int count) {
 		if (cards.isEmpty()) {
 			// If the pile is empty, only kings can be added
 			return (card.getRank() == Rank.KING);
@@ -29,8 +28,8 @@ public class Tableau extends Pile {
 		}
 	}
 
-	public boolean addCard(Card card) {
-		if (canAddCard(card)) {
+	public boolean addCard(Card card, int count) {
+		if (canAddCard(card, count)) {
 			cards.add(card);
 
 			topStack.add(card);
@@ -73,10 +72,9 @@ public class Tableau extends Pile {
 			layeredImageView.setTranslateY(yOffset * (cards.size() - 1));
 			stackPane.getChildren().add(layeredImageView);
 
-			List<Card> listAdapter = new ArrayList<Card>(Arrays.asList(topCard));
-			dragAndDrop.createDraggableCardStack(listAdapter, this);
 			topStack.clear();
 			topStack.add(topCard);
+			updateDragNDrop();
 		}
 	}
 
@@ -89,7 +87,7 @@ public class Tableau extends Pile {
 	public void updateDragNDrop() {
 		// Update the top card's drag and drop to reference it's new pile
 		if (!topStack.isEmpty()) {
-			for (int i = 0; i < topStack.size() - 1; i++) {
+			for (int i = 0; i < topStack.size(); i++) {
 				List<Card> subArray = new ArrayList<>(topStack.subList(i, topStack.size()));
 				dragAndDrop.createDraggableCardStack(subArray, this);
 			}

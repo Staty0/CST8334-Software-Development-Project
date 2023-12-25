@@ -24,7 +24,7 @@ public class TalonClickEvent implements javafx.event.EventHandler<MouseEvent> {
 	public void handle(MouseEvent arg0) {
 		Card card = talon.removeTopCard();
 		if (card != null) {
-			stock.addCard(card);
+			stock.addCard(card, 1);
 			card.flip();
 			List<Card> listAdapter = new ArrayList<Card>(Arrays.asList(card));
 			dragAndDrop.createDraggableCardStack(listAdapter, stock);
