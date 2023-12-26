@@ -17,6 +17,8 @@ public class welcomguiController {
         try {
             Parent gui = FXMLLoader.load(getClass().getResource("/gui/gui.fxml"));
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            // load the css file
+            gui.getStylesheets().add(getClass().getResource("/gui/gui.css").toExternalForm());
             stage.setScene(new Scene(gui));
             stage.centerOnScreen();
             stage.show();

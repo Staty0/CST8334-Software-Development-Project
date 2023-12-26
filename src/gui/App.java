@@ -25,6 +25,8 @@ public class App extends Application {
 
         // Load the root node
         Parent root = loader.load();
+        // load the css file
+        root.getStylesheets().add(getClass().getResource("welcomgui.css").toExternalForm());
         
         stage.setTitle("Solitaire Game");
         
@@ -34,7 +36,7 @@ public class App extends Application {
 
     static void setRoot(String fxml) throws IOException {
         scene.setRoot(loadFXML(fxml));
-        scene.setFill(Color.SPRINGGREEN);
+        // scene.setFill(Color.SPRINGGREEN);
     }
 
     private static Parent loadFXML(String fxml) throws IOException {

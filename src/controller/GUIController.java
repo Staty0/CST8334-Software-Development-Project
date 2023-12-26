@@ -38,8 +38,7 @@ public class GUIController {
 
 		deck = new Deck();
 		deck.shuffle();
-		
-		gridPane.setStyle("-fx-background-color:" + ConfigReader.getBackgroundColour());
+
 
 		// Fill the tableau piles
 		// the logic is that the first tableau pile has 1 card, the second has 2 cards,
@@ -85,6 +84,8 @@ public class GUIController {
 		try {
             Parent gui = FXMLLoader.load(getClass().getResource("/gui/welcomgui.fxml"));
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+						// load the css file
+						gui.getStylesheets().add(getClass().getResource("/gui/welcomgui.css").toExternalForm());
             stage.setScene(new Scene(gui));
             stage.centerOnScreen();
             stage.show();
