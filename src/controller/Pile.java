@@ -35,6 +35,7 @@ public abstract class Pile {
 
 	public boolean addCard(Card card, int count) {
 		if (canAddCard(card, count)) {
+
 			if (!cards.isEmpty()) {
 				Card pastTopCard = cards.get(cards.size() - 1);
 				dragAndDrop.makeNonDraggable(pastTopCard);
@@ -52,7 +53,6 @@ public abstract class Pile {
 			return true;
 		} else {
 			// Handle invalid move (e.g., show a message, log, etc.)
-
 			return false;
 		}
 	}

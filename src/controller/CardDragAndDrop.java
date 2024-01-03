@@ -92,6 +92,7 @@ public class CardDragAndDrop {
 			if (success) {
 				Iterator<Card> iterator = draggedCards.iterator();
 				while (iterator.hasNext()) {
+
 					targetPile.addCard(iterator.next(), draggedCards.size());
 				}
 				lastTarget = targetPile;

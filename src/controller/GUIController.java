@@ -36,7 +36,6 @@ public class GUIController {
 		
 		gridPane.setStyle("-fx-background-color:" + ConfigReader.getBackgroundColour());
 
-
 		// Fill the tableau piles
 		// the logic is that the first tableau pile has 1 card, the second has 2 cards,
 		// the third has 3 cards, and so on
