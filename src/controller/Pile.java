@@ -33,8 +33,8 @@ public abstract class Pile {
 		return cards;
 	}
 
-	public boolean addCard(Card card) {
-		if (canAddCard(card)) {
+	public boolean addCard(Card card, int count) {
+		if (canAddCard(card, count)) {
 
 			if (!cards.isEmpty()) {
 				Card pastTopCard = cards.get(cards.size() - 1);
@@ -53,12 +53,11 @@ public abstract class Pile {
 			return true;
 		} else {
 			// Handle invalid move (e.g., show a message, log, etc.)
-			System.out.println("Invalid move");
 			return false;
 		}
 	}
 
-	abstract boolean canAddCard(Card card);
+	abstract boolean canAddCard(Card card, int count);
 
 	public Card removeTopCard() {
 		if (!cards.isEmpty()) {

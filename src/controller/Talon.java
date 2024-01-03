@@ -7,7 +7,7 @@ public class Talon extends Pile {
 	private int yOffset = 0;
 
 	@Override
-	boolean canAddCard(Card card) {
+	boolean canAddCard(Card card, int count) {
 		return false;
 	}
 

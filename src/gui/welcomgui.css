@@ -1,0 +1,97 @@
+/* background */
+.root{
+    -fx-background-image: url("file:images/newgamepic.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: 100% 100%;
+}
+
+/* title */
+#title {
+    -fx-font-family: "Palatino Linotype";
+    -fx-font-size: 45px;
+    -fx-font-weight: bold;
+    -fx-fill: #e4d6a7;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.8), 15, 0.5, 0, 0);
+}
+
+/* before */
+#newgame {
+    -fx-background-color: linear-gradient(
+        from 25% 25% to 100% 100%,
+        #89cff0,
+        #1d84b5
+    );
+    -fx-background-radius: 30;
+    -fx-text-fill: white;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+}
+
+/* when mouse cursor is over */
+#newgame:hover {
+    -fx-background-color: linear-gradient(
+        from 25% 25% to 100% 100%,
+        #4a5864,
+        #000000
+    );
+    -fx-background-radius: 30;
+    -fx-text-fill: white;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-effect: dropshadow(three-pass-box, #000000, 15, 0, 10, 10);
+}
+
+/* after pressed */
+#newgame:pressed {
+    -fx-background-color: linear-gradient(
+        from 25% 25% to 100% 100%,
+        #4a5864,
+        #000000
+    );
+    -fx-background-radius: 30;
+    -fx-text-fill: white;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-effect: dropshadow(three-pass-box, #000000, 15, 0, 10, 10);
+}
+
+/* exit before */
+#exit {
+    -fx-background-color: linear-gradient(
+        from 25% 25% to 100% 100%,
+        #ff7f50,
+        #ff6347
+    );
+    -fx-background-radius: 30;
+    -fx-text-fill: white;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+}
+
+/* exit when mouse cursor is over */
+#exit:hover {
+    -fx-background-color: linear-gradient(
+        from 25% 25% to 100% 100%,
+        #4a5864,
+        #000000
+    );
+    -fx-background-radius: 30;
+    -fx-text-fill: white;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-effect: dropshadow(three-pass-box, #000000, 15, 0, 10, 10);
+}
+
+/* exit after pressed */
+#exit:pressed {
+    -fx-background-color: linear-gradient(
+        from 25% 25% to 100% 100%,
+        #4a5864,
+        #000000
+    );
+    -fx-background-radius: 30;
+    -fx-text-fill: white;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-effect: dropshadow(three-pass-box, #000000, 15, 0, 10, 10);
+}

@@ -1,7 +1,5 @@
 package controller;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -60,15 +58,16 @@ public class CardDragAndDrop {
 		bottomCardView.setOnDragDone(event -> {
 			if (!event.isAccepted()) {
 				cardStack.forEach(stackedCard -> stackedCard.getImageView().setVisible(true));
+				event.consume();
 			} else {
 				cardStack.forEach(stackedCard -> stackedCard.getImageView().setVisible(true));
 				for (int i = 0; i < cardStack.size(); i++) {
 					currentPile.removeTopCard();
 				}
 				lastTarget.updateDragNDrop();
+				event.consume();
 				currentPile.updateDragNDrop();
 			}
-			event.consume();
 		});
 		return bottomCardView;
 	}
@@ -88,12 +87,13 @@ public class CardDragAndDrop {
 			ImageView cardView = (ImageView) event.getGestureSource();
 			List<Card> draggedCards = (List<Card>) cardView.getUserData();
 
-			success = targetPile.canAddCard(draggedCards.get(0));
+			success = targetPile.canAddCard(draggedCards.get(0), draggedCards.size());
 
 			if (success) {
 				Iterator<Card> iterator = draggedCards.iterator();
 				while (iterator.hasNext()) {
-					targetPile.addCard(iterator.next());
+
+					targetPile.addCard(iterator.next(), draggedCards.size());
 				}
 				lastTarget = targetPile;
 				event.setDropCompleted(true);

@@ -21,10 +21,12 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         // Load the FXML file
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("gui.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("welcomgui.fxml"));
 
         // Load the root node
         Parent root = loader.load();
+        // load the css file
+        root.getStylesheets().add(getClass().getResource("welcomgui.css").toExternalForm());
         
         stage.setTitle("Solitaire Game");
         
