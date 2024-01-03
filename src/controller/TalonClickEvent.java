@@ -33,6 +33,8 @@ public class TalonClickEvent implements javafx.event.EventHandler<MouseEvent> {
 		} else {
 			List<Card> cardList = stock.drawAll();
 			for (Card cards : cardList) {
+				cards.flip();
+			}
 	            cards.flip();
 	        }
 			talon.setCardList(cardList);

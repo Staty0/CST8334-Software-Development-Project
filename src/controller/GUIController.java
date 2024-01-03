@@ -1,10 +1,12 @@
 package controller;
 
+import java.io.IOException;
 import java.util.List;
 
 import javafx.fxml.FXML;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
 import model.Card;
 import model.ConfigReader;
 import model.Deck;
@@ -33,6 +35,7 @@ public class GUIController {
 		deck.shuffle();
 		
 		gridPane.setStyle("-fx-background-color:" + ConfigReader.getBackgroundColour());
+
 
 		// Fill the tableau piles
 		// the logic is that the first tableau pile has 1 card, the second has 2 cards,
@@ -72,4 +75,19 @@ public class GUIController {
 		stockClass.setStackPane(stock);
 		stockClass.updateStackView();
 	}
+	
+	// back to main menu
+	public void backToMenu(ActionEvent event) {
+		try {
+            Parent gui = FXMLLoader.load(getClass().getResource("/gui/welcomgui.fxml"));
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+						// load the css file
+						gui.getStylesheets().add(getClass().getResource("/gui/welcomgui.css").toExternalForm());
+            stage.setScene(new Scene(gui));
+            stage.centerOnScreen();
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

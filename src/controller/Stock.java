@@ -12,8 +12,10 @@ public class Stock extends Pile {
 	private int yOffset = 0;
 	
 	@Override
+
 	public boolean addCard(Card card, int count) {
 		if (canAddCard(card, count)) {
+
 			cards.add(card);
 			
 			// Render code
