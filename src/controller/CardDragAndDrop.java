@@ -64,9 +64,7 @@ public class CardDragAndDrop {
 				for (int i = 0; i < cardStack.size(); i++) {
 					currentPile.removeTopCard();
 				}
-				lastTarget.updateDragNDrop();
 				event.consume();
-				currentPile.updateDragNDrop();
 			}
 		});
 		return bottomCardView;
@@ -92,7 +90,6 @@ public class CardDragAndDrop {
 			if (success) {
 				Iterator<Card> iterator = draggedCards.iterator();
 				while (iterator.hasNext()) {
-
 					targetPile.addCard(iterator.next(), draggedCards.size());
 				}
 				lastTarget = targetPile;

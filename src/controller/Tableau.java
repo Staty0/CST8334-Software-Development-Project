@@ -39,6 +39,7 @@ public class Tableau extends Pile {
 			layeredImageView.setTranslateX(xOffset * (cards.size() - 1));
 			layeredImageView.setTranslateY(yOffset * (cards.size() - 1));
 			stackPane.getChildren().add(layeredImageView);
+			updateDragNDrop();
 
 			return true;
 		} else {
@@ -51,6 +52,7 @@ public class Tableau extends Pile {
 		if (!cards.isEmpty()) {
 			Card removedCard = cards.remove(cards.size() - 1);
 			topStack.remove(removedCard);
+			updateDragNDrop();
 			// If the teableau still has cards, check to make sure the top one is face up
 			if (!cards.isEmpty()) {
 				flipTopCard();
