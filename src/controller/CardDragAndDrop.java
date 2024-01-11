@@ -59,6 +59,9 @@ public class CardDragAndDrop {
 			if (!event.isAccepted()) {
 				cardStack.forEach(stackedCard -> stackedCard.getImageView().setVisible(true));
 				event.consume();
+
+				System.out.println("Drag and drop failed");
+
 			} else {
 				cardStack.forEach(stackedCard -> stackedCard.getImageView().setVisible(true));
 				for (int i = 0; i < cardStack.size(); i++) {
@@ -67,6 +70,13 @@ public class CardDragAndDrop {
 				lastTarget.updateDragNDrop();
 				event.consume();
 				currentPile.updateDragNDrop();
+
+				// test for the score system
+				System.out.println("Drag and drop success");
+				ScoreManager.getInstance().addScore(1);
+				event.consume();
+				System.out.println(ScoreManager.getInstance().getScore());
+				
 			}
 		});
 		return bottomCardView;

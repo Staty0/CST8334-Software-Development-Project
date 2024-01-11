@@ -72,6 +72,7 @@ public abstract class Pile {
 			Card topCard = cards.get(cards.size() - 1);
 			List<Card> listAdapter = new ArrayList<Card>(Arrays.asList(topCard));
 			dragAndDrop.createDraggableCardStack(listAdapter, this);
+
 		}
 	}
 
