@@ -35,8 +35,6 @@ public class TalonClickEvent implements javafx.event.EventHandler<MouseEvent> {
 			for (Card cards : cardList) {
 				cards.flip();
 			}
-	            cards.flip();
-	        }
 			talon.setCardList(cardList);
 			talon.updateStackView();
 			stock.updateStackView();
