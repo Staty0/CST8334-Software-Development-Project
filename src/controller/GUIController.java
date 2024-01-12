@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javafx.animation.KeyFrame;
@@ -36,6 +37,11 @@ public class GUIController {
 
 	private Deck deck;
 	private CardDragAndDrop dragAndDrop = CardDragAndDrop.getInstance();;
+	private Tableau[] tableauPilesControllers = new Tableau[7];
+	private Foundation[] foundationPilesControllers = new Foundation[4];
+	
+	private Talon talonClass = new Talon();
+	private Stock stockClass = new Stock();
 
 	@FXML
 	private Button new_game;
@@ -53,57 +59,98 @@ public class GUIController {
 		StackPane[] tableauPiles = { tableau1, tableau2, tableau3, tableau4, tableau5, tableau6, tableau7, tableau8 };
 		StackPane[] foundationPiles = { foundation1, foundation2, foundation3, foundation4 };
 
-		deck = new Deck();
-		deck.shuffle();
-
-		// start the timer
-		setupTimer();
-		timeline.play();
-
 		gridPane.setStyle("-fx-background-color:" + ConfigReader.getBackgroundColour());
 
-		// Fill the tableau piles
-		// the logic is that the first tableau pile has 1 card, the second has 2 cards,
-		// the third has 3 cards, and so on
+		//Create the controllers and attach them to the StackPane
 		for (int i = 0; i < 7; i++) {
 			Tableau tableau = new Tableau();
-			List<Card> cards = deck.deal(i + 1);
-			tableau.setCardList(cards);
 			tableau.setStackPane(tableauPiles[i]);
-			tableau.updateStackView();
-			tableau.flipTopCard();
+			tableauPilesControllers[i] = tableau;
 			dragAndDrop.setupDropTarget(tableauPiles[i], tableau);
+			TapToMove clickListener = new TapToMove();
+			clickListener.setFoundationPiles(foundationPilesControllers);
+			clickListener.setTableauPiles(tableauPilesControllers);
+			clickListener.setSelfPileController(tableau);
+			tableauPiles[i].setOnMouseClicked(clickListener);
 		}
 
-		// Setup the foundation piles
 		for (int i = 0; i < 4; i++) {
 			Foundation foundation = new Foundation();
 			foundation.setStackPane(foundationPiles[i]);
-			foundation.updateStackView();
+			foundationPilesControllers[i] = foundation;
 			dragAndDrop.setupDropTarget(foundationPiles[i], foundation);
+			TapToMove clickListener = new TapToMove();
+			clickListener.setFoundationPiles(foundationPilesControllers);
+			clickListener.setTableauPiles(tableauPilesControllers);
+			clickListener.setSelfPileController(foundation);
+			foundationPiles[i].setOnMouseClicked(clickListener);
 		}
 
 		// Setup the talon pile
 		TalonClickEvent talonClick = new TalonClickEvent();
-		Talon talonClass = new Talon();
-		talonClick.setTalon(talonClass);
 
-		talonClass.setCardList(deck.dealAll());
+		talonClick.setTalon(talonClass);
 		talonClass.setStackPane(talon);
 		talon.setOnMouseClicked(talonClick);
-		talonClass.updateStackView();
 
 		// Setup the stock pile
-		Stock stockClass = new Stock();
 		talonClick.setStock(stockClass);
 		stockClass.setStackPane(stock);
+		TapToMove clickListener = new TapToMove();
+		clickListener.setFoundationPiles(foundationPilesControllers);
+		clickListener.setTableauPiles(tableauPilesControllers);
+		clickListener.setSelfPileController(stockClass);
+		stock.setOnMouseClicked(clickListener);
+		
+		newGame();
+	}
+
+	public void newGame() {
+		deck = new Deck();
+		deck.shuffle();
+		
+		// Fill the tableau piles
+		// the logic is that the first tableau pile has 1 card, the second has 2 cards,
+		// the third has 3 cards, and so on
+		for (int i = 0; i < 7; i++) {
+			Tableau tableau = tableauPilesControllers[i];
+			List<Card> cards = deck.deal(i + 1);
+			tableau.setCardList(cards);
+			tableau.updateStackView();
+			tableau.flipTopCard();
+		}
+
+		for (int i = 0; i < 4; i++) {
+			foundationPilesControllers[i].setCardList(new ArrayList<Card>()); 
+			foundationPilesControllers[i].updateStackView();
+		}
+
+		talonClass.setCardList(deck.dealAll());
+		talonClass.updateStackView();
+
 		stockClass.updateStackView();
+    
+    // start the timer
+		setupTimer();
+		timeline.play();
 
 		// Update the score when the score changes
 		ScoreManager.getInstance().setScoreChangeListener(newScore -> {
 			scoreNumber.setText(String.valueOf(newScore));
 		});
 	}
+
+
+	// back to main menu
+	public void backToMenu(ActionEvent event) {
+		try {
+			Parent gui = FXMLLoader.load(getClass().getResource("/gui/welcomgui.fxml"));
+			Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+			// load the css file
+			gui.getStylesheets().add(getClass().getResource("/gui/welcomgui.css").toExternalForm());
+			stage.setScene(new Scene(gui));
+			stage.centerOnScreen();
+			stage.show();
 
 	// Start a new game button
 	public void newGame(ActionEvent event) {
@@ -143,5 +190,4 @@ public class GUIController {
 		}));
 		timeline.setCycleCount(Timeline.INDEFINITE);
 	}
-
 }
