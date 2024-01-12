@@ -59,6 +59,9 @@ public class CardDragAndDrop {
 			if (!event.isAccepted()) {
 				cardStack.forEach(stackedCard -> stackedCard.getImageView().setVisible(true));
 				event.consume();
+
+				System.out.println("Drag and drop failed");
+
 			} else {
 				cardStack.forEach(stackedCard -> stackedCard.getImageView().setVisible(true));
 				for (int i = 0; i < cardStack.size(); i++) {

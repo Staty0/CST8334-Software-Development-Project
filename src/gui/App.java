@@ -29,7 +29,7 @@ public class App extends Application {
         root.getStylesheets().add(getClass().getResource("welcomgui.css").toExternalForm());
         
         stage.setTitle("Solitaire Game");
-        
+        stage.setResizable(false); // Lock the window
         stage.setScene(new Scene(root));
         stage.show();
     }
