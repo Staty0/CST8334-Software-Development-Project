@@ -70,12 +70,6 @@ public class CardDragAndDrop {
 				lastTarget.updateDragNDrop();
 				event.consume();
 				currentPile.updateDragNDrop();
-
-				// test for the score system
-				System.out.println("Drag and drop success");
-				ScoreManager.getInstance().addScore(1);
-				event.consume();
-				System.out.println(ScoreManager.getInstance().getScore());
 				
 			}
 		});

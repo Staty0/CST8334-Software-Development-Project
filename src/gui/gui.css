@@ -27,3 +27,9 @@
     -fx-font-size: 30px;
     -fx-font-weight: bold;
 }
+
+#timerText{
+    -fx-font-size: 30px;
+    -fx-font-weight: bold;
+    -fx-align-items: right;
+}

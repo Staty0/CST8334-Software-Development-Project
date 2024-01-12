@@ -11,7 +11,9 @@ public class Foundation extends Pile {
 		if (count <= 1) {
 			if (cards.isEmpty()) {
 				// If the pile is empty, only aces can be added
+
 				return (card.getRank() == Rank.ACE);
+
 			} else {
 				Card topCard = cards.get(cards.size() - 1);
 				// Check if same suit
@@ -22,6 +24,7 @@ public class Foundation extends Pile {
 					return false;
 				}
 			}
+
 		} else {
 			return false;
 		}

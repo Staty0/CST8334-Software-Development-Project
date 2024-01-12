@@ -93,11 +93,14 @@
 
 
   <!-- new game button -->
-  <Button fx:id="new_game" onAction="#backToMenu" text="New Game" textAlignment="CENTER" GridPane.columnIndex="10" GridPane.rowIndex="1" />
+  <Button fx:id="new_game" onAction="#newGame" text="New Game" textAlignment="CENTER" GridPane.columnIndex="10" GridPane.rowIndex="1" />
 
 	<!-- score text -->
   <Text fx:id="scoreText" text="Score:" GridPane.columnIndex="9" />
 	<Text fx:id="scoreNumber" text="Number" GridPane.columnIndex="10" />
+
+  <!-- Timer -->
+  <Text fx:id="timerText" text="Time: 00:00" GridPane.columnIndex="9" GridPane.rowIndex="1" />
 
   </children>
 

@@ -12,6 +12,9 @@ public class Tableau extends Pile {
 	private int yOffset = 20;
 	private List<Card> topStack = new ArrayList<Card>();
 
+	// make sure does't add points when first time
+	private boolean isFirstTime = true;
+
 	boolean canAddCard(Card card, int count) {
 		if (cards.isEmpty()) {
 			// If the pile is empty, only kings can be added
@@ -40,6 +43,10 @@ public class Tableau extends Pile {
 			layeredImageView.setTranslateY(yOffset * (cards.size() - 1));
 			stackPane.getChildren().add(layeredImageView);
 
+			// 3 points for each card moved to a tableau pile
+			ScoreManager.getInstance().addScore(3);
+			System.out.println("Tableau Pile + 3 points");
+
 			return true;
 		} else {
 			// Handle invalid move
@@ -54,6 +61,7 @@ public class Tableau extends Pile {
 			// If the teableau still has cards, check to make sure the top one is face up
 			if (!cards.isEmpty()) {
 				flipTopCard();
+				
 			}
 			return removedCard;
 		}
@@ -66,6 +74,12 @@ public class Tableau extends Pile {
 		if (topCard.isFaceUp() != true) {
 			topCard.flip();
 
+			// 5 points for each card flipped up
+			if(!isFirstTime) {
+				ScoreManager.getInstance().addScore(5);
+				System.out.println("Flip card + 5 points");
+			}
+
 			stackPane.getChildren().remove(stackPane.getChildren().size() - 1);
 			ImageView layeredImageView = topCard.getImageView();
 			layeredImageView.setTranslateX(xOffset * (cards.size() - 1));
@@ -75,6 +89,8 @@ public class Tableau extends Pile {
 			topStack.clear();
 			topStack.add(topCard);
 			updateDragNDrop();
+
+			isFirstTime = false;
 		}
 	}
 

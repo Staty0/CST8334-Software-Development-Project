@@ -3,6 +3,8 @@ package controller;
 import java.io.IOException;
 import java.util.List;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,6 +17,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import model.Card;
 import model.ConfigReader;
 import model.Deck;
@@ -40,6 +43,10 @@ public class GUIController {
 	@FXML
 	private Text scoreNumber;
 
+	@FXML
+	private Text timerText;
+	private Timeline timeline;
+	private int seconds = 0, minutes = 0;
 
 	// initialize the GUI controller
 	public void initialize() {
@@ -48,6 +55,10 @@ public class GUIController {
 
 		deck = new Deck();
 		deck.shuffle();
+
+		// start the timer
+		setupTimer();
+		timeline.play();
 
 		gridPane.setStyle("-fx-background-color:" + ConfigReader.getBackgroundColour());
 
@@ -91,12 +102,11 @@ public class GUIController {
 		// Update the score when the score changes
 		ScoreManager.getInstance().setScoreChangeListener(newScore -> {
 			scoreNumber.setText(String.valueOf(newScore));
-	});
+		});
 	}
 
-
 	// Start a new game button
-	public void backToMenu(ActionEvent event) {
+	public void newGame(ActionEvent event) {
 		try {
 			Parent gui = FXMLLoader.load(getClass().getResource("/gui/gui.fxml"));
 			Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -105,9 +115,33 @@ public class GUIController {
 			stage.setScene(new Scene(gui));
 			stage.centerOnScreen();
 			stage.show();
+			timeline.play();
+			// reset the score
+			ScoreManager.getInstance().resetScore();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	// For the timer
+	// timeline will be used to update the timer every second so does the socre logic
+	private void setupTimer() {
+		timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
+			seconds++;
+			if (seconds == 60) {
+				minutes++;
+				seconds = 0;
+			}
+			timerText.setText(String.format("Time: %02d:%02d", minutes, seconds));
+
+			// - 2 points for 10 seconds
+			if (seconds % 10 == 0) {
+				ScoreManager.getInstance().addScore(-2);
+				System.out.println("Time - 2 points");
+			}
+
+		}));
+		timeline.setCycleCount(Timeline.INDEFINITE);
 	}
 
 }

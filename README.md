@@ -2,6 +2,7 @@
 
 # gui.fxml 
 changed the layout and added the Score Number in
+added timeline logic 
 
 # CardDragAndDrop(bottomCardView.setOnDragDone) 
 added a simple score system when the card successfully moves
@@ -11,6 +12,7 @@ will update the score from ScoreManager
 
 # ScoreManager
 This class manages the score for the game.
+update little bit of score system
 
 ## VS code base
 if your using vscode please remember set up libraries, launch.json for javafx directory

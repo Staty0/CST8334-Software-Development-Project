@@ -50,6 +50,10 @@ public abstract class Pile {
 			layeredImageView.setTranslateY(yOffset * (cards.size() - 1));
 			stackPane.getChildren().add(layeredImageView);
 
+			// 10 points for each card moved to a fondation pile
+			ScoreManager.getInstance().addScore(10);
+			System.out.println("Fondation Pile + 10 points");
+
 			return true;
 		} else {
 			// Handle invalid move (e.g., show a message, log, etc.)
