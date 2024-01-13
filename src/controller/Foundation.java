@@ -4,8 +4,11 @@ import model.Card;
 import model.Rank;
 
 public class Foundation extends Pile {
-	private int xOffset = 0;
-	private int yOffset = 0;
+
+	public Foundation() {
+		scoreOnAdd = 10;
+		scoreOnRemove = -18;
+	}
 
 	boolean canAddCard(Card card, int count) {
 		if (count <= 1) {

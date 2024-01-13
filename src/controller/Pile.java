@@ -10,8 +10,11 @@ import javafx.scene.layout.StackPane;
 import model.Card;
 
 public abstract class Pile {
-	private int xOffset = 0;
-	private int yOffset = 0;
+	protected int xOffset = 0;
+	protected int yOffset = 0;
+	protected int scoreOnAdd = 0;
+	protected int scoreOnRemove = 0;
+	
 	protected List<Card> cards = new ArrayList<Card>();;
 	protected StackPane stackPane;
 	CardStack graphics = CardStack.getInstance();
@@ -51,8 +54,7 @@ public abstract class Pile {
 			stackPane.getChildren().add(layeredImageView);
 
 			// 10 points for each card moved to a fondation pile
-			ScoreManager.getInstance().addScore(10);
-			System.out.println("Fondation Pile + 10 points");
+			ScoreManager.getInstance().addScore(scoreOnAdd);
 
 			return true;
 		} else {
@@ -65,6 +67,7 @@ public abstract class Pile {
 
 	public Card removeTopCard() {
 		if (!cards.isEmpty()) {
+			ScoreManager.getInstance().addScore(scoreOnRemove);
 			return cards.remove(cards.size() - 1);
 		}
 		return null; // Pile is empty

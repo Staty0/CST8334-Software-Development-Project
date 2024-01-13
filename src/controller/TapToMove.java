@@ -30,23 +30,19 @@ public class TapToMove implements EventHandler<MouseEvent> {
 			List<Card> cards = selfPileController.getCards();
 			if (cards.size() > 0) {
 				if (selfPileController instanceof Tableau) {
+					Card topCard = cards.get(cards.size() - 1);
+					for (int f = 0; f < foundationPiles.length; f++) {
+						Foundation target = foundationPiles[f];
+						if (target.canAddCard(topCard, 1)) {
+							target.addCard(selfPileController.removeTopCard(), 1);
+							selfPileController.updateDragNDrop();
+							target.updateDragNDrop();
+							return;
+						}
+					}
 					for (int i = 0; i < cards.size(); i++) {
 						Card currentCard = cards.get(i);
 						if (currentCard.isFaceUp()) {
-							for (int f = 0; f < foundationPiles.length; f++) {
-								Foundation target = foundationPiles[f];
-								if (target.canAddCard(currentCard, cards.size() - i)) {
-									int trackCardsAdded = 0;
-									for (int t = i; t < cards.size(); t++) {
-										target.addCard(cards.get(t), cards.size() - t);
-										trackCardsAdded += 1;
-									}
-									for (int t = 0; t < trackCardsAdded; t++) {
-										selfPileController.removeTopCard();
-									}
-									return;
-								}
-							}
 							for (int f = 0; f < tableauPiles.length; f++) {
 								Tableau target = tableauPiles[f];
 								if (target.canAddCard(currentCard, cards.size() - i)) {
@@ -58,6 +54,8 @@ public class TapToMove implements EventHandler<MouseEvent> {
 									for (int t = 0; t < trackCardsAdded; t++) {
 										selfPileController.removeTopCard();
 									}
+									selfPileController.updateDragNDrop();
+									target.updateDragNDrop();
 									return;
 								}
 							}
@@ -69,6 +67,8 @@ public class TapToMove implements EventHandler<MouseEvent> {
 						Foundation target = foundationPiles[f];
 						if (target.canAddCard(cardToMove, 1)) {
 							target.addCard(selfPileController.removeTopCard(), 1);
+							selfPileController.updateDragNDrop();
+							target.updateDragNDrop();
 							return;
 						}
 					}
@@ -76,6 +76,8 @@ public class TapToMove implements EventHandler<MouseEvent> {
 						Tableau target = tableauPiles[f];
 						if (target.canAddCard(cardToMove, 1)) {
 							target.addCard(selfPileController.removeTopCard(), 1);
+							selfPileController.updateDragNDrop();
+							target.updateDragNDrop();
 							return;
 						}
 					}

@@ -9,11 +9,12 @@ import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
@@ -34,25 +35,24 @@ public class GUIController {
 	private StackPane talon;
 	@FXML
 	private GridPane gridPane;
+	@FXML
+	private Button new_game;
+	@FXML
+	private Button back_to_menu;
+	@FXML
+	private Text scoreNumber;
+	@FXML
+	private Text timerText;
+	private Timeline timeline;
+	private int seconds = 0, minutes = 0;
 
 	private Deck deck;
 	private CardDragAndDrop dragAndDrop = CardDragAndDrop.getInstance();;
 	private Tableau[] tableauPilesControllers = new Tableau[7];
 	private Foundation[] foundationPilesControllers = new Foundation[4];
-	
+
 	private Talon talonClass = new Talon();
 	private Stock stockClass = new Stock();
-
-	@FXML
-	private Button new_game;
-
-	@FXML
-	private Text scoreNumber;
-
-	@FXML
-	private Text timerText;
-	private Timeline timeline;
-	private int seconds = 0, minutes = 0;
 
 	// initialize the GUI controller
 	public void initialize() {
@@ -61,7 +61,7 @@ public class GUIController {
 
 		gridPane.setStyle("-fx-background-color:" + ConfigReader.getBackgroundColour());
 
-		//Create the controllers and attach them to the StackPane
+		// Create the controllers and attach them to the StackPane
 		for (int i = 0; i < 7; i++) {
 			Tableau tableau = new Tableau();
 			tableau.setStackPane(tableauPiles[i]);
@@ -101,7 +101,14 @@ public class GUIController {
 		clickListener.setTableauPiles(tableauPilesControllers);
 		clickListener.setSelfPileController(stockClass);
 		stock.setOnMouseClicked(clickListener);
-		
+
+		setupTimer();
+
+		// Update the score when the score changes
+		ScoreManager.getInstance().setScoreChangeListener(newScore -> {
+			scoreNumber.setText(String.valueOf(newScore));
+		});
+
 		newGame();
 	}
 
@@ -109,7 +116,7 @@ public class GUIController {
 		deck = new Deck();
 		deck.shuffle();
 		ScoreManager.getInstance().resetScore();
-		
+
 		// Fill the tableau piles
 		// the logic is that the first tableau pile has 1 card, the second has 2 cards,
 		// the third has 3 cards, and so on
@@ -118,49 +125,65 @@ public class GUIController {
 			List<Card> cards = deck.deal(i + 1);
 			tableau.setCardList(cards);
 			tableau.updateStackView();
+			tableau.resetFirstTime();
 			tableau.flipTopCard();
 		}
 
 		for (int i = 0; i < 4; i++) {
-			foundationPilesControllers[i].setCardList(new ArrayList<Card>()); 
+			foundationPilesControllers[i].setCardList(new ArrayList<Card>());
 			foundationPilesControllers[i].updateStackView();
 		}
 
 		talonClass.setCardList(deck.dealAll());
 		talonClass.updateStackView();
 
+		stockClass.setCardList(new ArrayList<Card>());
+		stockClass.resetPastThrough();
 		stockClass.updateStackView();
-    
-    // start the timer
-		setupTimer();
-		timeline.play();
 
-		// Update the score when the score changes
-		ScoreManager.getInstance().setScoreChangeListener(newScore -> {
-			scoreNumber.setText(String.valueOf(newScore));
-		});
+		// Reset and then start the timer
+		timeline.stop();
+	    seconds = 0;
+	    minutes = 0;
+	    timerText.setText("Time: 00:00");
+	    timeline.play();
 	}
-	
-	// Start a new game button
+
+	// Button to start a new game 
 	public void newGame(ActionEvent event) {
-		try {
-			Parent gui = FXMLLoader.load(getClass().getResource("/gui/gui.fxml"));
-			Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-			// load the css file
-			gui.getStylesheets().add(getClass().getResource("/gui/gui.css").toExternalForm());
-			stage.setScene(new Scene(gui));
-			stage.centerOnScreen();
-			stage.show();
-			timeline.play();
-			// reset the score
-			ScoreManager.getInstance().resetScore();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure?", ButtonType.YES, ButtonType.NO);
+		alert.setHeaderText(""); 
+        alert.showAndWait().ifPresent(response -> {
+            if (response == ButtonType.YES) {
+            	newGame();
+            }
+        });
+	}
+
+	// Button to go back to the menu
+	public void backToMenu(ActionEvent event) {
+		Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure?", ButtonType.YES, ButtonType.NO);
+		alert.setContentText(""); 
+        alert.showAndWait().ifPresent(response -> {
+            if (response == ButtonType.YES) {
+            	try {
+        			Parent gui = FXMLLoader.load(getClass().getResource("/gui/welcomgui.fxml"));
+        			Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        			// load the css file
+        			gui.getStylesheets().add(getClass().getResource("/gui/welcomgui.css").toExternalForm());
+        			stage.setScene(new Scene(gui));
+        			stage.centerOnScreen();
+        			stage.show();
+        		} catch (IOException e) {
+        			e.printStackTrace();
+        		}
+            }
+        });
 	}
 
 	// For the timer
-	// timeline will be used to update the timer every second so does the socre logic
+	// timeline will be used to update the timer every second so does the score
+	// logic
 	private void setupTimer() {
 		timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
 			seconds++;
@@ -173,7 +196,6 @@ public class GUIController {
 			// - 2 points for 10 seconds
 			if (seconds % 10 == 0) {
 				ScoreManager.getInstance().addScore(-2);
-				System.out.println("Time - 2 points");
 			}
 
 		}));

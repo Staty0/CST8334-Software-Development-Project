@@ -8,12 +8,20 @@ import model.Card;
 import model.Rank;
 
 public class Tableau extends Pile {
-	private int xOffset = 0;
-	private int yOffset = 20;
 	private List<Card> topStack = new ArrayList<Card>();
-
-	// make sure does't add points when first time
+	
+	public Tableau() {
+		scoreOnAdd = 3;
+		scoreOnRemove = 0;
+		yOffset = 20;
+	}
+	
+	// make sure doesn't add points for the first flip
 	private boolean isFirstTime = true;
+
+	public void resetFirstTime() {
+		isFirstTime = true;
+	}
 
 	boolean canAddCard(Card card, int count) {
 		if (cards.isEmpty()) {
@@ -42,11 +50,9 @@ public class Tableau extends Pile {
 			layeredImageView.setTranslateX(xOffset * (cards.size() - 1));
 			layeredImageView.setTranslateY(yOffset * (cards.size() - 1));
 			stackPane.getChildren().add(layeredImageView);
-			updateDragNDrop();
 
 			// 3 points for each card moved to a tableau pile
-			ScoreManager.getInstance().addScore(3);
-			System.out.println("Tableau Pile + 3 points");
+			ScoreManager.getInstance().addScore(scoreOnAdd);
 
 			return true;
 		} else {
@@ -55,15 +61,14 @@ public class Tableau extends Pile {
 		}
 	}
 
+	@Override
 	public Card removeTopCard() {
 		if (!cards.isEmpty()) {
 			Card removedCard = cards.remove(cards.size() - 1);
 			topStack.remove(removedCard);
-			updateDragNDrop();
 			// If the teableau still has cards, check to make sure the top one is face up
 			if (!cards.isEmpty()) {
 				flipTopCard();
-				
 			}
 			return removedCard;
 		}
@@ -79,18 +84,17 @@ public class Tableau extends Pile {
 			// 5 points for each card flipped up
 			if(!isFirstTime) {
 				ScoreManager.getInstance().addScore(5);
-				System.out.println("Flip card + 5 points");
 			}
+			
+			topStack.clear();
+			topStack.add(topCard);
+			updateDragNDrop();
 
 			stackPane.getChildren().remove(stackPane.getChildren().size() - 1);
 			ImageView layeredImageView = topCard.getImageView();
 			layeredImageView.setTranslateX(xOffset * (cards.size() - 1));
 			layeredImageView.setTranslateY(yOffset * (cards.size() - 1));
 			stackPane.getChildren().add(layeredImageView);
-
-			topStack.clear();
-			topStack.add(topCard);
-			updateDragNDrop();
 
 			isFirstTime = false;
 		}

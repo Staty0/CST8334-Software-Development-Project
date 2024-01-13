@@ -8,11 +8,14 @@ import javafx.scene.image.ImageView;
 import model.Card;
 
 public class Stock extends Pile {
-	private int xOffset = 0;
-	private int yOffset = 0;
+	private int pastThrough = 0;
+	private int scoreOnTalonReturn = -100;
+	
+	public Stock() {
+		scoreOnRemove = 5;
+	}
 	
 	@Override
-
 	public boolean addCard(Card card, int count) {
 		if (canAddCard(card, count)) {
 
@@ -37,6 +40,11 @@ public class Stock extends Pile {
 		return !card.isFaceUp();
 	}
 
+	public void resetPastThrough() {
+		pastThrough = 0;
+	}
+
+
 	@Override
 	public void updateStackView() {
 		stackPane.getChildren().clear();
@@ -46,7 +54,13 @@ public class Stock extends Pile {
 	public List<Card> drawAll() {
 		List<Card> dealtCards = new ArrayList<>(cards);
 		cards.clear();
-		Collections.reverse(dealtCards); 
+		Collections.reverse(dealtCards);
+		
+		if (pastThrough >= 1) {
+			ScoreManager.getInstance().addScore(scoreOnTalonReturn);
+		}
+		pastThrough += 1;
+				
 		return dealtCards;
 	}
 }
