@@ -8,102 +8,118 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Text?>
 
-<GridPane fx:id="gridPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1366.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.GUIController">
-  <children>
-    <StackPane fx:id="foundation1" GridPane.columnIndex="0" GridPane.rowIndex="0">
-      <padding>
-        <Insets bottom="5" left="5" right="5" top="5" />
-      </padding>
-    </StackPane>
-    <StackPane fx:id="foundation2" GridPane.columnIndex="1" GridPane.rowIndex="0">
-      <padding>
-        <Insets bottom="5" left="5" right="5" top="5" />
-      </padding>
-    </StackPane>
-    <StackPane fx:id="foundation3" GridPane.columnIndex="2" GridPane.rowIndex="0">
-      <padding>
-        <Insets bottom="5" left="5" right="5" top="5" />
-      </padding>
-    </StackPane>
-    <StackPane fx:id="foundation4" GridPane.columnIndex="3" GridPane.rowIndex="0">
-      <padding>
-        <Insets bottom="5" left="5" right="5" top="5" />
-      </padding>
-    </StackPane>
-    <StackPane fx:id="tableau1" GridPane.columnIndex="0" GridPane.rowIndex="1">
-      <padding>
-        <Insets bottom="5" left="5" right="5" top="5" />
-      </padding>
-    </StackPane>
-    <StackPane fx:id="tableau2" GridPane.columnIndex="1" GridPane.rowIndex="1">
-      <padding>
-        <Insets bottom="5" left="5" right="5" top="5" />
-      </padding>
-    </StackPane>
-    <StackPane fx:id="tableau3" GridPane.columnIndex="2" GridPane.rowIndex="1">
-      <padding>
-        <Insets bottom="5" left="5" right="5" top="5" />
-      </padding>
-    </StackPane>
-    <StackPane fx:id="tableau4" GridPane.columnIndex="3" GridPane.rowIndex="1">
-      <padding>
-        <Insets bottom="5" left="5" right="5" top="5" />
-      </padding>
-    </StackPane>
-    <StackPane fx:id="tableau5" GridPane.columnIndex="4" GridPane.rowIndex="1">
-      <padding>
-        <Insets bottom="5" left="5" right="5" top="5" />
-      </padding>
-    </StackPane>
-    <StackPane fx:id="tableau6" GridPane.columnIndex="5" GridPane.rowIndex="1">
-      <padding>
-        <Insets bottom="5" left="5" right="5" top="5" />
-      </padding>
-    </StackPane>
-    <StackPane fx:id="tableau7" GridPane.columnIndex="6" GridPane.rowIndex="1">
-      <padding>
-        <Insets bottom="5" left="5" right="5" top="5" />
-      </padding>
-    </StackPane>
-    <StackPane fx:id="tableau8" layoutY="250.0" GridPane.columnIndex="7" GridPane.rowIndex="1">
-      <padding>
-        <Insets bottom="5" left="5" right="5" top="5" />
-      </padding>
-    </StackPane>
-    <StackPane fx:id="talon" prefHeight="180.0" prefWidth="120.0" GridPane.columnIndex="7" GridPane.rowIndex="0">
-      <padding>
-        <Insets bottom="5" left="80" right="5" top="5" />
-      </padding>
-    </StackPane>
-    <StackPane fx:id="stock" prefHeight="180.0" prefWidth="120.0" GridPane.columnIndex="6" GridPane.rowIndex="0">
-      <padding>
-        <Insets bottom="5" left="5" right="5" top="5" />
-      </padding>
-    </StackPane>
+<GridPane fx:id="gridPane" maxHeight="-Infinity"
+	maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+	prefHeight="768.0" prefWidth="1366.0"
+	xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="controller.GUIController">
+	<children>
+		<StackPane fx:id="foundation1" GridPane.columnIndex="0"
+			GridPane.rowIndex="1">
+			<padding>
+				<Insets bottom="5" left="5" right="5" top="5" />
+			</padding>
+		</StackPane>
+		<StackPane fx:id="foundation2" GridPane.columnIndex="1"
+			GridPane.rowIndex="1">
+			<padding>
+				<Insets bottom="5" left="5" right="5" top="5" />
+			</padding>
+		</StackPane>
+		<StackPane fx:id="foundation3" GridPane.columnIndex="2"
+			GridPane.rowIndex="1">
+			<padding>
+				<Insets bottom="5" left="5" right="5" top="5" />
+			</padding>
+		</StackPane>
+		<StackPane fx:id="foundation4" GridPane.columnIndex="3"
+			GridPane.rowIndex="1">
+			<padding>
+				<Insets bottom="5" left="5" right="5" top="5" />
+			</padding>
+		</StackPane>
+		<StackPane fx:id="tableau1" GridPane.columnIndex="0"
+			GridPane.rowIndex="2">
+			<padding>
+				<Insets bottom="5" left="5" right="5" top="5" />
+			</padding>
+		</StackPane>
+		<StackPane fx:id="tableau2" GridPane.columnIndex="1"
+			GridPane.rowIndex="2">
+			<padding>
+				<Insets bottom="5" left="5" right="5" top="5" />
+			</padding>
+		</StackPane>
+		<StackPane fx:id="tableau3" GridPane.columnIndex="2"
+			GridPane.rowIndex="2">
+			<padding>
+				<Insets bottom="5" left="5" right="5" top="5" />
+			</padding>
+		</StackPane>
+		<StackPane fx:id="tableau4" GridPane.columnIndex="3"
+			GridPane.rowIndex="2">
+			<padding>
+				<Insets bottom="5" left="5" right="5" top="5" />
+			</padding>
+		</StackPane>
+		<StackPane fx:id="tableau5" GridPane.columnIndex="4"
+			GridPane.rowIndex="2">
+			<padding>
+				<Insets bottom="5" left="5" right="5" top="5" />
+			</padding>
+		</StackPane>
+		<StackPane fx:id="tableau6" GridPane.columnIndex="5"
+			GridPane.rowIndex="2">
+			<padding>
+				<Insets bottom="5" left="5" right="5" top="5" />
+			</padding>
+		</StackPane>
+		<StackPane fx:id="tableau7" GridPane.columnIndex="6"
+			GridPane.rowIndex="2">
+			<padding>
+				<Insets bottom="5" left="5" right="5" top="5" />
+			</padding>
+		</StackPane>
+		<StackPane fx:id="tableau8" layoutY="250.0"
+			GridPane.columnIndex="7" GridPane.rowIndex="2">
+			<padding>
+				<Insets bottom="5" left="5" right="5" top="5" />
+			</padding>
+		</StackPane>
+		<StackPane fx:id="talon" prefHeight="180.0"
+			prefWidth="120.0" GridPane.columnIndex="7" GridPane.rowIndex="1">
+			<padding>
+				<Insets bottom="5" left="80" right="5" top="5" />
+			</padding>
+		</StackPane>
+		<StackPane fx:id="stock" prefHeight="180.0"
+			prefWidth="120.0" GridPane.columnIndex="6" GridPane.rowIndex="1">
+			<padding>
+				<Insets bottom="5" left="5" right="5" top="5" />
+			</padding>
+		</StackPane>
 
-    <StackPane prefHeight="250.0" prefWidth="50.0" GridPane.columnIndex="8" GridPane.rowIndex="1">
-    </StackPane>
+		<!-- new game button -->
+		<Button fx:id="new_game" onAction="#newGame" text="New Game" GridPane.halignment="CENTER"
+			textAlignment="CENTER" GridPane.columnIndex="0" GridPane.rowIndex="0"
+			 />
+		<!-- Back to menu button -->
+		<Button fx:id="back_to_menu" onAction="#backToMenu" GridPane.halignment="CENTER"
+			text="Back To Menu" textAlignment="CENTER" GridPane.columnIndex="1"
+			GridPane.rowIndex="0"  />
 
-    <StackPane prefHeight="250.0" prefWidth="100.0" GridPane.columnIndex="9" GridPane.rowIndex="1">
-    </StackPane>
+		<!-- score text -->
+		<Text fx:id="scoreText" text="Score:" GridPane.columnIndex="6"
+			GridPane.rowIndex="0" style="-fx-font-size: 20.0" />
+		<Text fx:id="scoreNumber" text="0" GridPane.columnIndex="7"
+			GridPane.rowIndex="0" />
 
-		<StackPane prefHeight="50.0" prefWidth="50.0" GridPane.columnIndex="10" GridPane.rowIndex="1">
-    </StackPane>
+		<!-- Timer -->
+		<Text fx:id="timerText" text="Time: 00:00"
+			GridPane.columnIndex="4" GridPane.rowIndex="0" />
+
+	</children>
 
 
-
-  <!-- new game button -->
-  <Button fx:id="new_game" onAction="#newGame" text="New Game" textAlignment="CENTER" GridPane.columnIndex="10" GridPane.rowIndex="1" />
-
-	<!-- score text -->
-  <Text fx:id="scoreText" text="Score:" GridPane.columnIndex="9" />
-	<Text fx:id="scoreNumber" text="Number" GridPane.columnIndex="10" />
-
-  <!-- Timer -->
-  <Text fx:id="timerText" text="Time: 00:00" GridPane.columnIndex="9" GridPane.rowIndex="1" />
-
-  </children>
-
-  
 
 </GridPane>

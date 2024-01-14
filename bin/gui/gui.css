@@ -7,7 +7,7 @@
     -fx-background-color:#34aed7;
     -fx-background-radius: 30;
     -fx-text-fill: white;
-    -fx-font-size: 18px;
+    -fx-font-size: 14px;
     -fx-font-weight: bold;
     -fx-align-items: center;
 }
@@ -15,21 +15,32 @@
 #new_game:hover {
     -fx-background-color:#6ab66a;
 }
+#back_to_menu {
+    -fx-background-color:#34aed7;
+    -fx-background-radius: 30;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+#back_to_menu:hover {
+    -fx-background-color:#6ab66a;
+}
 
 #scoreText{
-    -fx-font-size: 30px;
+    -fx-font-size: 20px;
     -fx-font-weight: bold;
-    -fx-align-items: right;
-    
+    -fx-align-items: center;
 }
 
 #scoreNumber{
-    -fx-font-size: 30px;
+    -fx-font-size: 20px;
     -fx-font-weight: bold;
+    -fx-alignment: center;
 }
 
 #timerText{
-    -fx-font-size: 30px;
+    -fx-font-size: 20px;
     -fx-font-weight: bold;
-    -fx-align-items: right;
+    -fx-align-items: center;
 }
