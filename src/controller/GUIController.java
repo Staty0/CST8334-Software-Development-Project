@@ -54,6 +54,15 @@ public class GUIController {
 	private Talon talonClass = new Talon();
 	private Stock stockClass = new Stock();
 
+
+	// vegas mode 
+	private boolean isVegasMode = false;
+
+	public void setVegasMode(boolean isVegasMode) {
+		this.isVegasMode = isVegasMode;
+	}
+
+
 	// initialize the GUI controller
 	public void initialize() {
 		StackPane[] tableauPiles = { tableau1, tableau2, tableau3, tableau4, tableau5, tableau6, tableau7, tableau8 };
@@ -109,13 +118,23 @@ public class GUIController {
 			scoreNumber.setText(String.valueOf(newScore));
 		});
 
+		//		System.out.println("initialize in gui controller : isVegasMode = " + isVegasMode);
 		newGame();
 	}
 
 	public void newGame() {
 		deck = new Deck();
 		deck.shuffle();
-		ScoreManager.getInstance().resetScore();
+		
+		
+		// Reset the score manager
+		ScoreManager scoreManager = ScoreManager.getInstance();
+		scoreManager.resetScore();
+
+		// If it's Vegas mode, set the ante
+		if (isVegasMode) {
+			scoreManager.setVegasAnte();
+		}
 
 		// Fill the tableau piles
 		// the logic is that the first tableau pile has 1 card, the second has 2 cards,
@@ -143,42 +162,48 @@ public class GUIController {
 
 		// Reset and then start the timer
 		timeline.stop();
-	    seconds = 0;
-	    minutes = 0;
-	    timerText.setText("Time: 00:00");
-	    timeline.play();
+		seconds = 0;
+		minutes = 0;
+		timerText.setText("Time: 00:00");
+		timeline.play();
 	}
 
 	// Button to start a new game 
 	public void newGame(ActionEvent event) {
 		Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure?", ButtonType.YES, ButtonType.NO);
-		alert.setHeaderText(""); 
-        alert.showAndWait().ifPresent(response -> {
-            if (response == ButtonType.YES) {
-            	newGame();
-            }
-        });
+		alert.setHeaderText("");
+		alert.showAndWait().ifPresent(response -> {
+			if (response == ButtonType.YES) {
+				//		            System.out.println("Before setVegasAnte: isVegasMode = " + isVegasMode);
+				// Check if it's Vegas mode and set the ante
+				if (isVegasMode) {
+					ScoreManager.getInstance().setVegasAnte();
+				}
+				//		            System.out.println("After setVegasAnte: isVegasMode = " + isVegasMode);
+				newGame();
+			}
+		});
 	}
 
 	// Button to go back to the menu
 	public void backToMenu(ActionEvent event) {
 		Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure?", ButtonType.YES, ButtonType.NO);
 		alert.setContentText(""); 
-        alert.showAndWait().ifPresent(response -> {
-            if (response == ButtonType.YES) {
-            	try {
-        			Parent gui = FXMLLoader.load(getClass().getResource("/gui/welcomgui.fxml"));
-        			Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        			// load the css file
-        			gui.getStylesheets().add(getClass().getResource("/gui/welcomgui.css").toExternalForm());
-        			stage.setScene(new Scene(gui));
-        			stage.centerOnScreen();
-        			stage.show();
-        		} catch (IOException e) {
-        			e.printStackTrace();
-        		}
-            }
-        });
+		alert.showAndWait().ifPresent(response -> {
+			if (response == ButtonType.YES) {
+				try {
+					Parent gui = FXMLLoader.load(getClass().getResource("/gui/welcomgui.fxml"));
+					Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+					// load the css file
+					gui.getStylesheets().add(getClass().getResource("/gui/welcomgui.css").toExternalForm());
+					stage.setScene(new Scene(gui));
+					stage.centerOnScreen();
+					stage.show();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		});
 	}
 
 	// For the timer
@@ -191,10 +216,16 @@ public class GUIController {
 				minutes++;
 				seconds = 0;
 			}
-			timerText.setText(String.format("Time: %02d:%02d", minutes, seconds));
+			if (!isVegasMode) {
+				// Display the timer only if not in Vegas mode
+				timerText.setText(String.format("Time: %02d:%02d", minutes, seconds));
+			} else {
+				// Hide the timer in Vegas mode. It will not impact the score
+				timerText.setVisible(false);
+			}
 
 			// - 2 points for 10 seconds
-			if (seconds % 10 == 0) {
+			if (seconds % 10 == 0 && !isVegasMode) {
 				ScoreManager.getInstance().addScore(-2);
 			}
 
