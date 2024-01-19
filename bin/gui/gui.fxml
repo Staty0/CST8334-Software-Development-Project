@@ -107,6 +107,10 @@
 		<Button fx:id="back_to_menu" onAction="#backToMenu" GridPane.halignment="CENTER"
 			text="Back To Menu" textAlignment="CENTER" GridPane.columnIndex="1"
 			GridPane.rowIndex="0"  />
+		<!-- Pause game button -->
+		<Button fx:id="pause_button" onAction="#pauseGame" GridPane.halignment="CENTER"
+			text="Pause Game" textAlignment="CENTER" GridPane.columnIndex="2"
+			GridPane.rowIndex="0"  />
 
 		<!-- score text -->
 		<Text fx:id="scoreText" text="Score:" GridPane.columnIndex="6"

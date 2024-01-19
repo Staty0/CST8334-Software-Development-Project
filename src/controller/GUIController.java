@@ -3,6 +3,9 @@ package controller;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -18,6 +21,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import model.Card;
@@ -40,6 +44,8 @@ public class GUIController {
 	@FXML
 	private Button back_to_menu;
 	@FXML
+	private Button pause_button;
+	@FXML
 	private Text scoreNumber;
 	@FXML
 	private Text timerText;
@@ -54,6 +60,8 @@ public class GUIController {
 	private Talon talonClass = new Talon();
 	private Stock stockClass = new Stock();
 
+	private boolean isPaused = false;
+
 	// initialize the GUI controller
 	public void initialize() {
 		StackPane[] tableauPiles = { tableau1, tableau2, tableau3, tableau4, tableau5, tableau6, tableau7, tableau8 };
@@ -61,30 +69,39 @@ public class GUIController {
 
 		gridPane.setStyle("-fx-background-color:" + ConfigReader.getBackgroundColour());
 
-		// Create the controllers and attach them to the StackPane
-		for (int i = 0; i < 7; i++) {
-			Tableau tableau = new Tableau();
-			tableau.setStackPane(tableauPiles[i]);
-			tableauPilesControllers[i] = tableau;
-			dragAndDrop.setupDropTarget(tableauPiles[i], tableau);
-			TapToMove clickListener = new TapToMove();
-			clickListener.setFoundationPiles(foundationPilesControllers);
-			clickListener.setTableauPiles(tableauPilesControllers);
-			clickListener.setSelfPileController(tableau);
-			tableauPiles[i].setOnMouseClicked(clickListener);
-		}
+		ExecutorService executorService = Executors.newCachedThreadPool();
+		CountDownLatch countDownLatch = new CountDownLatch(2);
 
-		for (int i = 0; i < 4; i++) {
-			Foundation foundation = new Foundation();
-			foundation.setStackPane(foundationPiles[i]);
-			foundationPilesControllers[i] = foundation;
-			dragAndDrop.setupDropTarget(foundationPiles[i], foundation);
-			TapToMove clickListener = new TapToMove();
-			clickListener.setFoundationPiles(foundationPilesControllers);
-			clickListener.setTableauPiles(tableauPilesControllers);
-			clickListener.setSelfPileController(foundation);
-			foundationPiles[i].setOnMouseClicked(clickListener);
-		}
+		// Create the controllers and attach them to the StackPane
+		executorService.submit(() -> {
+			for (int i = 0; i < 7; i++) {
+				Tableau tableau = new Tableau();
+				tableau.setStackPane(tableauPiles[i]);
+				tableauPilesControllers[i] = tableau;
+				dragAndDrop.setupDropTarget(tableauPiles[i], tableau);
+				TapToMove clickListener = new TapToMove();
+				clickListener.setFoundationPiles(foundationPilesControllers);
+				clickListener.setTableauPiles(tableauPilesControllers);
+				clickListener.setSelfPileController(tableau);
+				tableauPiles[i].setOnMouseClicked(clickListener);
+			}
+			countDownLatch.countDown();
+		});
+
+		executorService.submit(() -> {
+			for (int i = 0; i < 4; i++) {
+				Foundation foundation = new Foundation();
+				foundation.setStackPane(foundationPiles[i]);
+				foundationPilesControllers[i] = foundation;
+				dragAndDrop.setupDropTarget(foundationPiles[i], foundation);
+				TapToMove clickListener = new TapToMove();
+				clickListener.setFoundationPiles(foundationPilesControllers);
+				clickListener.setTableauPiles(tableauPilesControllers);
+				clickListener.setSelfPileController(foundation);
+				foundationPiles[i].setOnMouseClicked(clickListener);
+			}
+			countDownLatch.countDown();
+		});
 
 		// Setup the talon pile
 		TalonClickEvent talonClick = new TalonClickEvent();
@@ -108,6 +125,14 @@ public class GUIController {
 		ScoreManager.getInstance().setScoreChangeListener(newScore -> {
 			scoreNumber.setText(String.valueOf(newScore));
 		});
+
+		try {
+			countDownLatch.await();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
+		executorService.shutdown();
 
 		newGame();
 	}
@@ -143,42 +168,62 @@ public class GUIController {
 
 		// Reset and then start the timer
 		timeline.stop();
-	    seconds = 0;
-	    minutes = 0;
-	    timerText.setText("Time: 00:00");
-	    timeline.play();
+		seconds = 0;
+		minutes = 0;
+		timerText.setText("Time: 00:00");
+		timeline.play();
 	}
 
-	// Button to start a new game 
+	// Button to start a new game
 	public void newGame(ActionEvent event) {
 		Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure?", ButtonType.YES, ButtonType.NO);
-		alert.setHeaderText(""); 
-        alert.showAndWait().ifPresent(response -> {
-            if (response == ButtonType.YES) {
-            	newGame();
-            }
+		alert.setHeaderText("");
+		alert.showAndWait().ifPresent(response -> {
+			if (response == ButtonType.YES) {
+				newGame();
+			}
+		});
+	}
+
+	// Pause button
+	public void pauseGame(ActionEvent event) {
+		isPaused = !isPaused;
+		timeline.pause();
+		showPausePopup();
+	}
+
+	private void showPausePopup() {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Paused");
+        alert.setHeaderText("");
+        alert.setContentText("The game is paused");
+
+        alert.initModality(Modality.APPLICATION_MODAL);
+        alert.setOnCloseRequest(event -> {
+        	timeline.play();
         });
+        alert.showAndWait();
 	}
 
 	// Button to go back to the menu
 	public void backToMenu(ActionEvent event) {
 		Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure?", ButtonType.YES, ButtonType.NO);
-		alert.setContentText(""); 
-        alert.showAndWait().ifPresent(response -> {
-            if (response == ButtonType.YES) {
-            	try {
-        			Parent gui = FXMLLoader.load(getClass().getResource("/gui/welcomgui.fxml"));
-        			Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        			// load the css file
-        			gui.getStylesheets().add(getClass().getResource("/gui/welcomgui.css").toExternalForm());
-        			stage.setScene(new Scene(gui));
-        			stage.centerOnScreen();
-        			stage.show();
-        		} catch (IOException e) {
-        			e.printStackTrace();
-        		}
-            }
-        });
+		alert.setContentText("");
+		alert.showAndWait().ifPresent(response -> {
+			if (response == ButtonType.YES) {
+				try {
+					Parent gui = FXMLLoader.load(getClass().getResource("/gui/welcomgui.fxml"));
+					Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+					// load the css file
+					gui.getStylesheets().add(getClass().getResource("/gui/welcomgui.css").toExternalForm());
+					stage.setScene(new Scene(gui));
+					stage.centerOnScreen();
+					stage.show();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		});
 	}
 
 	// For the timer

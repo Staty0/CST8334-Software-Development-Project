@@ -27,6 +27,18 @@
     -fx-background-color:#6ab66a;
 }
 
+#pause_button {
+    -fx-background-color:#34aed7;
+    -fx-background-radius: 30;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+#pause_button:hover {
+    -fx-background-color:#6ab66a;
+}
+
 #scoreText{
     -fx-font-size: 20px;
     -fx-font-weight: bold;
