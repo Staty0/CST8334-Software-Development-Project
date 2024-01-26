@@ -5,7 +5,8 @@ import model.Rank;
 
 public class Foundation extends Pile {
 
-	public Foundation() {
+	public Foundation(boolean isVegasMode) {
+		super(isVegasMode);  // Call the constructor of the superclass (Pile)
 		scoreOnAdd = 10;
 		scoreOnRemove = -18;
 	}
@@ -32,6 +33,16 @@ public class Foundation extends Pile {
 			return false;
 		}
 	}
+	
+	@Override
+    public boolean addCard(Card card, int count) {
+        if (super.addCard(card, count) && !isVegasMode) {
+            // Only add the score if it's not Vegas mode
+            ScoreManager.getInstance().addScore(scoreOnAdd);
+            return true;
+        }
+        return false;
+    }
 
 	// Update the GUI
 	public void updateStackView() {

@@ -50,13 +50,15 @@ public class GUIController {
 	private CardDragAndDrop dragAndDrop = CardDragAndDrop.getInstance();;
 	private Tableau[] tableauPilesControllers = new Tableau[7];
 	private Foundation[] foundationPilesControllers = new Foundation[4];
-
-	private Talon talonClass = new Talon();
-	private Stock stockClass = new Stock();
-
+	
 
 	// vegas mode 
 	private boolean isVegasMode = false;
+
+	private Talon talonClass = new Talon(isVegasMode);
+	private Stock stockClass = new Stock(isVegasMode);
+
+
 
 	public void setVegasMode(boolean isVegasMode) {
 		this.isVegasMode = isVegasMode;
@@ -72,7 +74,7 @@ public class GUIController {
 
 		// Create the controllers and attach them to the StackPane
 		for (int i = 0; i < 7; i++) {
-			Tableau tableau = new Tableau();
+			Tableau tableau = new Tableau(isVegasMode);
 			tableau.setStackPane(tableauPiles[i]);
 			tableauPilesControllers[i] = tableau;
 			dragAndDrop.setupDropTarget(tableauPiles[i], tableau);
@@ -84,7 +86,7 @@ public class GUIController {
 		}
 
 		for (int i = 0; i < 4; i++) {
-			Foundation foundation = new Foundation();
+			Foundation foundation = new Foundation(isVegasMode);
 			foundation.setStackPane(foundationPiles[i]);
 			foundationPilesControllers[i] = foundation;
 			dragAndDrop.setupDropTarget(foundationPiles[i], foundation);

@@ -10,11 +10,12 @@ import model.Rank;
 public class Tableau extends Pile {
 	private List<Card> topStack = new ArrayList<Card>();
 	
-	public Tableau() {
-		scoreOnAdd = 3;
-		scoreOnRemove = 0;
-		yOffset = 20;
-	}
+	public Tableau(boolean isVegasMode) {
+        super(isVegasMode);  // Call the constructor of the superclass (Pile)
+        scoreOnAdd = 3;
+        scoreOnRemove = 0;
+        yOffset = 20;
+    }
 	
 	// make sure doesn't add points for the first flip
 	private boolean isFirstTime = true;
@@ -51,9 +52,10 @@ public class Tableau extends Pile {
 			layeredImageView.setTranslateY(yOffset * (cards.size() - 1));
 			stackPane.getChildren().add(layeredImageView);
 
-			// 3 points for each card moved to a tableau pile
-			ScoreManager.getInstance().addScore(scoreOnAdd);
-
+			// 3 points for each card moved to a tableau pile (only if not in Vegas mode)
+            if (!isVegasMode) {
+                ScoreManager.getInstance().addScore(scoreOnAdd);
+            }
 			return true;
 		} else {
 			// Handle invalid move
@@ -78,13 +80,18 @@ public class Tableau extends Pile {
 	// If the top card is face down, flip it up and put it in play
 	public void flipTopCard() {
 		Card topCard = cards.get(cards.size() - 1);
-		if (topCard.isFaceUp() != true) {
-			topCard.flip();
+		if (!topCard.isFaceUp()) {
+	        topCard.flip();
 
-			// 5 points for each card flipped up
-			if(!isFirstTime) {
-				ScoreManager.getInstance().addScore(5);
-			}
+	        // Add 5 points for each card flipped up (only if not in Vegas mode and not the first flip)
+	        if (!isFirstTime && !isVegasMode) {
+	            ScoreManager.getInstance().addScore(5);
+	        }
+
+			// 5 points for each card flipped up (only if not in Vegas mode and not the first flip)
+            if (!isFirstTime && !isVegasMode) {
+                ScoreManager.getInstance().addScore(5);
+            }
 			
 			topStack.clear();
 			topStack.add(topCard);

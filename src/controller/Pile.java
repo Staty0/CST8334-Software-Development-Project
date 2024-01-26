@@ -14,11 +14,17 @@ public abstract class Pile {
 	protected int yOffset = 0;
 	protected int scoreOnAdd = 0;
 	protected int scoreOnRemove = 0;
-	
+	protected boolean isVegasMode;
+
 	protected List<Card> cards = new ArrayList<Card>();;
 	protected StackPane stackPane;
 	CardStack graphics = CardStack.getInstance();
 	protected CardDragAndDrop dragAndDrop = CardDragAndDrop.getInstance();
+
+
+	public Pile(boolean isVegasMode) {
+		this.isVegasMode = isVegasMode;
+	}
 
 	public void setStackPane(StackPane stackPane) {
 		this.stackPane = stackPane;
@@ -53,10 +59,11 @@ public abstract class Pile {
 			layeredImageView.setTranslateY(yOffset * (cards.size() - 1));
 			stackPane.getChildren().add(layeredImageView);
 
-			// 10 points for each card moved to a fondation pile
-			ScoreManager.getInstance().addScore(scoreOnAdd);
-
-			return true;
+			 // 10 points for each card moved to a foundation pile (only if not in Vegas mode)
+            if (!isVegasMode) { // Check if it's Vegas mode
+                ScoreManager.getInstance().addScore(scoreOnAdd);
+            }
+            return true;
 		} else {
 			// Handle invalid move (e.g., show a message, log, etc.)
 			return false;
